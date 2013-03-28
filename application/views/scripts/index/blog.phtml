@@ -1,0 +1,35 @@
+﻿<?php
+// Создаём заголовок страницы, который загрузится в layout
+$this->title = "Статьи";
+$this->headTitle($this->title);
+
+$keywords = "";
+foreach ($this->blog as $blogItem) {
+    $filter = new Zend_Filter_Keywords(10);
+	$keyword = $filter->filter($blogItem->text);
+	$keywords = $keywords . $keyword;
+}
+
+$this->headMeta()->setName('keywords', $keywords);		
+$this->headMeta()->setName('description', $this->title);
+?>
+
+<span class="h1-page-title">
+<a href='/'>Главная</a><span class='slash'>\\</span><span class='prod'></span>
+</span>  
+<div class="latest-news">
+   <div class="news-header">
+   <div class="bg-left">
+   <div class="bg-right">
+   <div>
+     <h1 class="h1-latest-news"><?php echo $this->title; ?></h1>
+   </div>
+   </div>
+   </div>
+   </div>
+   <?php
+     echo $this->partialLoop('partials/bloglist.phtml', $this->blog);
+     echo $this->paginationControl($this->paginator, 'Sliding', 'partials/pagination.phtml'); 
+   ?>
+</div>   
+

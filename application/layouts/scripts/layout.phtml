@@ -1,0 +1,140 @@
+﻿<?php
+    $this->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=utf-8');
+    $this->headMeta()->appendHttpEquiv('Content-Language', 'ru');   
+    $this->headMeta()->appendHttpEquiv('Pragma', 'no-cache');
+    $this->headMeta()->appendHttpEquiv('Cache-Control', 'no-cache');
+    
+    $this->headTitle()->setSeparator(' - ');
+    $this->headTitle('Вакансии в Новосибирске. proVacancy.ru.');
+     
+    echo $this->doctype();
+?>
+     
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru">
+<head>
+<?php
+    echo $this->headTitle();
+    echo $this->headMeta(); 
+?>
+<meta name="document-state" content="dynamic" />
+<meta name="robots" content="index,follow" />
+<meta name='yandex-verification' content='63fe593dff248c31' />
+<meta name="google-site-verification" content="PLwmd2PsUKiOc0uWnVWMiGQ4m4phVKYYtKZOoBcOZfY" />
+<?php echo $this->headLink()->prependStylesheet($this->baseUrl().'/css/style_new.css'); ?>
+</head>
+<body>
+<table cellspacing="0" class="global">
+    <tr>
+        <td class="upper">
+        <!-- HEADER start -->
+        <table cellspacing="0" class="top-title">
+            <tr>
+                <td class="title">
+				<div class = "logo_title">
+					<h1 class="h1-latest-news">Вакансии в Новосибирске</h1>
+				</div>
+                <?php
+                    /*$city = new Zend_City_City();
+                    echo '<h2>'.$city->getName().'</h2>';  
+                    echo '<h2><a href=/index/changecity>Выбрать другой город...</a></h2>'; */     
+                ?>
+                </td>
+                <td class="search">
+                <!--    <div class="ya-site-form ya-site-form_inited_no" onclick="return {'bg': 'transparent', 'target': '_self', 'language': 'ru', 'suggest': true, 'tld': 'ru', 'site_suggest': true, 'action': 'http://yandex.ru/sitesearch', 'webopt': false, 'fontsize': 12, 'arrow': false, 'fg': '#000000', 'searchid': '1962399', 'logo': 'rb', 'websearch': false, 'type': 3}"><form action="http://yandex.ru/sitesearch" method="get" target="_self"><input type="hidden" name="searchid" value="1962399" /><input type="hidden" name="l10n" value="ru" /><input type="hidden" name="reqenc" value="" /><input type="text" name="text" value="" /><input type="submit" value="Найти" /></form></div><style type="text/css">.ya-page_js_yes .ya-site-form_inited_no { display: none; }</style><script type="text/javascript">(function(w,d,c){var s=d.createElement('script'),h=d.getElementsByTagName('script')[0],e=d.documentElement;(' '+e.className+' ').indexOf(' ya-page_js_yes ')===-1&&(e.className+=' ya-page_js_yes');s.type='text/javascript';s.async=true;s.charset='utf-8';s.src=(d.location.protocol==='https:'?'https:':'http:')+'//site.yandex.net/v2.0/js/all.js';h.parentNode.insertBefore(s,h);(w[c]||(w[c]=[])).push(function(){Ya.Site.Form.init()})})(window,document,'yandex_site_callbacks');</script> -->
+                </td>
+                <td class="search">
+                Вакансии в Новосибирске и Новосибирской области на сайте nks.proVacancy.ru. Самые свежие, самые последние, от прямых работодателей и кадровых агентств!
+                </td>
+            </tr>
+
+        </table>  
+
+        <!-- MAIN MENU start -->
+        <div class="top-menu">
+        <div class="bg-left">
+        <div class="bg-right">
+            <ul>
+                <li><a href='/index'>Главная</a></li>
+                <li><a href='/index/add'>Добавить</a></li>
+                <li><a href='/index/ruls'>Правила</a></li>
+                <li><a href='/index/support'>Обратная связь</a></li>
+                <li><a href='/index/blog'>Статьи</a></li>
+                <li><a href='/index/agency'>Агентства</a></li>
+                <li><a href='/index/rss'>RSS</a></li>
+                <li> </li>
+                <li> </li>
+                <li> </li>
+                <li> </li>
+                    <?php
+                    $pAuthIdentity = Zend_Auth::getInstance()->getIdentity();
+                    if ($pAuthIdentity) {
+                        $url_logout = $this->url(array('controller'=>'aut', 'action'=>'logout'));
+                        $url_office = $this->url(array('controller'=>'aut', 'action'=>'office'));
+                        $username = $pAuthIdentity->username;
+                        echo "<li>$username</li> 
+                            <li><a href=\"{$url_office}\">Личный кабинет</a></li>
+                            <li><a href=\"{$url_logout}\">Выход</a></li>";
+                    } else {
+                        $url = $this->url(array('controller'=>'aut', 'action'=>'login'));
+                        echo "<li><a href=\"{$url}\">Войти в кабинет</a>";  
+                        echo " / "; 
+                        $url = $this->url(array('controller'=>'aut', 'action'=>'registration'));
+                        echo "<a href=\"{$url}\">Зарегистрироваться</a></li>";          
+                    }
+                    ?>
+            </ul>
+        </div>
+        </div>
+        </div>  
+        <!-- MAIN MENU end-->
+        <!-- HEADER end -->
+		
+        <?php 
+            echo $this->layout()->content; 
+        ?>
+
+        <!-- FOOTER start -->
+        <div class="lower-menu">
+            <a href='/index'>Главная</a><span>|</span>
+            <a href='/index/add'>Добавить</a><span>|</span>
+            <a href='/index/ruls'>Правила</a><span>|</span>
+            <a href='/index/support'>Обратная связь</a><span>|</span>
+            <a href='/index/blog'>Статьи</a><span>|</span>
+            <a href='/index/agency'>Агентства</a><span>|</span>
+            <a href='/index/rss'>Rss</a>
+            <p>Дата изменений: 28.03.2013</p>
+        </div> 		
+		
+		
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+(function (d, w, c) {
+    (w[c] = w[c] || []).push(function() {
+        try {
+            w.yaCounter20579689 = new Ya.Metrika({id:20579689,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true});
+        } catch(e) { }
+    });
+
+    var n = d.getElementsByTagName("script")[0],
+        s = d.createElement("script"),
+        f = function () { n.parentNode.insertBefore(s, n); };
+    s.type = "text/javascript";
+    s.async = true;
+    s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+    if (w.opera == "[object Opera]") {
+        d.addEventListener("DOMContentLoaded", f, false);
+    } else { f(); }
+})(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="//mc.yandex.ru/watch/20579689" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->		
+		
+        </td>
+    </tr>
+</table>  
+</body>
+</html>

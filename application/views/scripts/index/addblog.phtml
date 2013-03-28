@@ -1,0 +1,12 @@
+﻿<?php
+    // Создаём заголовок страницы, который загрузится в layout
+    $this->title = "Добавить записи";
+    $this->headTitle($this->title);
+?>
+<div class = "add" align = "center">
+<?php  
+    // Выводим форму, полученную из контроллера
+    echo $this->form;
+?>
+</div>
+<div class = "error"> <?php echo $this->errMessage;?> </div>

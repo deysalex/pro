@@ -1,0 +1,137 @@
+﻿<?php
+// Создаём заголовок страницы, который загрузится в layout
+$title = $this->title;
+$description = $this->title;
+$texttop = "";
+if ($this->seocategory != null) {
+	$title = $this->seocategory->title;
+	$description = $this->seocategory->description;
+	$texttop = $this->seocategory->texttop;
+}
+$this->headTitle($title);
+
+$keywords = "";
+foreach ($this->post as $postItem) {
+    $filter = new Zend_Filter_Keywords(10);
+	$keyword = $filter->filter($postItem->text);
+	$keywords = $keywords . $keyword;
+}
+
+//$this->headMeta()->setName('keywords', $keywords);	
+$this->headMeta()->setName('description', $description);
+?>
+
+<span class="h1-page-title">
+<a href='/'>Главная</a><span class='slash'>\\</span><span class='prod'></span>
+</span>
+
+
+<table cellspacing="0"><tr>  
+<!-- LEFT COLUMN start -->    
+<!-- SUBMENU start -->
+<td class="left">
+<div class="left-width">
+ <ul class="submenu">
+   <?php echo $this->partialLoop('partials/categorylist.phtml', $this->indexcategory);?>
+ </ul>
+ <table cellspacing="0" class="featured">
+   <tr>
+     <td>
+     <div class="border-block">
+	 <div class="b">
+	 <div class="l">
+	 <div class="r">
+	 <div class="l-t">
+	 <div class="r-t">
+	 <div class="l-b">
+	 <div class="r-b">
+	 
+
+
+	 </div>
+	 </div>
+	 </div>
+	 </div>
+	 </div>
+	 </div>
+	 </div>
+	 </div>
+	 </td>
+   </tr>
+   <tr>
+     <td>
+     <div class="border-block">
+	 <div class="b">
+	 <div class="l">
+	 <div class="r">
+	 <div class="l-t">
+	 <div class="r-t">
+	 <div class="l-b">
+	 <div class="r-b">
+	 
+	 <span class="textleft">
+		<?php 
+			$texttop = "";
+			if ($this->seocategory != null) {
+				$texttop = $this->seocategory->textleft;
+			}
+			echo $texttop; 
+		?>
+	 </span>
+
+	 </div>
+	 </div>
+	 </div>
+	 </div>
+	 </div>
+	 </div>
+	 </div>
+	 </div>
+	 </td>
+   </tr>   
+ </table>
+ </div>
+ </td>  
+ <!-- LEFT COLUMN end -->  
+ <!-- MAIN COLUMN start -->
+ <td class="center">
+ <div class="main-content">
+ <div class="latest-news">
+   <div class="new-content">
+	<span class="h2-latest-news">
+		<?php 
+			$texttop = "";
+			if ($this->seocategory != null) {
+				$texttop = $this->seocategory->texttop;
+			}
+			echo $texttop; 
+		?>
+	</span>
+   </div>
+   <div class="news-header">
+   <div class="bg-left">
+   <div class="bg-right">
+   <div>
+     <h1 class="h1-latest-news"><?php echo $this->title; ?></h1>
+	 <span class= "addpost"><a href='/index/add'>Добавить объявление</a></span>
+   </div>
+   </div>
+   </div>
+   </div>
+   <?php
+     echo $this->partialLoop('partials/postlist.phtml', $this->post);
+     echo $this->paginationControl($this->paginator, 'Sliding', 'partials/pagination.phtml'); 
+   ?>
+ 
+
+ </div>    
+ <!-- MAIN CONTENT end -->
+ </div>
+ </td>  <!-- MAIN COLUMN end -->
+ </tr>
+ </table>
+
+
+
+
+

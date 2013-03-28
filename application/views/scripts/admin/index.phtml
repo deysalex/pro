@@ -1,0 +1,41 @@
+﻿<?php
+$this->title = "Настройки";
+$this->headTitle($this->title);
+?>
+
+<table cellspacing="0"><tr>  
+<!-- LEFT COLUMN start -->    
+<!-- SUBMENU start -->
+<td class="left">
+<div class="left-width">
+ <ul class="submenu">
+   <li><a href='/admin/addmailtemplate'>Добавить шаблон для письма</a></li>
+   <li><a href='/admin/sendmail'>Отправка писем</a></li>
+ </ul>
+ </div>
+ </td>  
+ <!-- LEFT COLUMN end -->  
+ <!-- MAIN COLUMN start -->
+ <td class="center">
+ <div class="main-content">
+ <div class="latest-news">
+   <div class="news-header">
+   <div class="bg-left">
+   <div class="bg-right">
+   <div>
+     <h1 class="h1-latest-news"><?php echo $this->title; ?></h1>
+   </div>
+   </div>
+   </div>
+   </div>
+   <?php
+     //echo $this->partialLoop('partials/mailtemplate.phtml', $this->mailtemplate);
+   ?>
+ 
+
+ </div>    
+ <!-- MAIN CONTENT end -->
+ </div>
+ </td>  <!-- MAIN COLUMN end -->
+ </tr>
+ </table>

@@ -1,0 +1,30 @@
+﻿<?php
+// Создаём заголовок страницы, который загрузится в layout
+$this->title = "Кадровые агентства в Томске";
+$this->headTitle($this->title);
+
+$this->headMeta()->setName('keywords', 'Кадровые агенства в Томске. Список агенств,которые занимаются услугами в области занятости.');		
+$this->headMeta()->setName('description', $this->title);
+?>
+
+<span class="h1-page-title">
+<a href='/'>Главная</a><span class='slash'>\\</span><span class='prod'></span>
+</span>  
+<div class="latest-news">
+   <div class="news-header">
+   <div class="bg-left">
+   <div class="bg-right">
+   <div>
+     <h1 class="h1-latest-news"><?php echo $this->title; ?></h1> 
+	 <span class="addagency"><a href='/index/addagency'>Добавить агентство</a></span>
+   </div>
+   </div>
+   </div>
+   </div>
+ 
+   <?php
+     echo $this->partialLoop('partials/agency.phtml', $this->agency);
+     echo $this->paginationControl($this->paginator, 'Sliding', 'partials/pagination.phtml'); 
+   ?>
+</div>   
+

@@ -1,0 +1,99 @@
+﻿<?php
+// Создаём заголовок страницы, который загрузится в layout
+$this->title = "Объявление";
+$this->headTitle($this->post->text);
+
+$Keywords = new Zend_Filter_Keywords(10);
+$this->headMeta()->setName('keywords', $Keywords->filter($this->post->text));
+
+$this->headMeta()->setName('description', /*substr(*/$this->post->text/*, 0, 200)*/); 
+	
+?>
+
+<span class="h1-page-title">
+<a href='/'>Главная</a><span class='slash'>\\</span><span class='prod'></span>
+<a href="<?php echo $this->url(array('controller'=>'index', 'action'=>'postlist', 'id'=>$this->post->categoryid));?>"><?php echo $this->indexcategory->category_name;?></a><span class='slash'>\\</span><span class='prod'></span>
+</span>  
+
+
+<table cellspacing="0"><tr>  
+<!-- LEFT COLUMN start -->    
+<!-- SUBMENU start -->
+<td class="left">
+<div class="left-width">
+ <table cellspacing="0" class="featured">
+   <tr>
+     <td>
+     <div class="border-block">
+	 <div class="b">
+	 <div class="l">
+	 <div class="r">
+	 <div class="l-t">
+	 <div class="r-t">
+	 <div class="l-b">
+	 <div class="r-b">
+	 
+
+
+	 </div>
+	 </div>
+	 </div>
+	 </div>
+	 </div>
+	 </div>
+	 </div>
+	 </div>
+	 </td>
+   </tr> 
+ </table>
+ </div>
+ </td>  
+ <!-- LEFT COLUMN end -->  
+ <!-- MAIN COLUMN start -->
+ <td class="center">
+ <div class="main-content">
+ <div class="latest-news">
+   <div class="news-header">
+   <div class="bg-left">
+   <div class="bg-right">
+   <div>
+     <h1 class="h1-latest-news"><?php echo 'Вакансия в Томске: '. $this->post->title; ?></h1>
+   </div>
+   </div>
+   </div>
+   </div>
+
+   <div>
+    <h3></h3>
+    <?php echo $this->post->text; ?> 
+   </div>
+  
+   <div>
+    <h3> Цена:  <?php echo $this->post->price; ?> </h3>
+   </div>  
+   <div>
+   <h3> Дата публикации:  
+   <?php 
+       $date = new Zend_Date($this->post->date); 
+       $createdDate= $date->get(Zend_Date::DATE_LONG); 
+	   echo $createdDate;
+   ?> 
+   </h3> 
+   </div>   
+   
+   	<script type='text/javascript' src='//yandex.st/share/share.js' charset='utf-8'></script>
+	<div class='yashare-auto-init' data-yashareL10n='ru' data-yashareType='button' data-yashareQuickServices='yaru,vkontakte,facebook,twitter,odnoklassniki,moimir'></div> 
+   
+ </div>    
+ <!-- MAIN CONTENT end -->
+ </div>
+ </td>  <!-- MAIN COLUMN end -->
+ </tr>
+ </table>
+
+
+
+
+  
+
+

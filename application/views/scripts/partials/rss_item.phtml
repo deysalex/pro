@@ -1,0 +1,27 @@
+﻿
+<item>
+	<title>
+		<?php
+			echo $this->title;
+		?>	
+	</title>
+	<link>
+		<?php
+			$sitemap_options = Zend_Controller_Front::getInstance()->getParam('bootstrap')->getApplication()->getOption('sitemap');
+			$sitemap_url = $sitemap_options['url'];	
+			echo $sitemap_url.'index/selectpost/id/'.$this->id;
+		?>	
+	</link>
+	<description>
+		<?php
+			echo mb_substr($this->text, 0, 400);
+		?>	
+	</description>
+	<pubDate>
+		<?php 
+			$date = new Zend_Date($this->date); 
+			$createdDate= $date->get(Zend_Date::RSS); 
+			echo $createdDate;
+		?>
+	</pubDate>
+</item>

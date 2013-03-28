@@ -1,0 +1,43 @@
+﻿<?php
+$this->headTitle($this->blog->title);
+
+$Keywords = new Zend_Filter_Keywords(10);
+$this->headMeta()->setName('keywords', $Keywords->filter($this->blog->text));
+
+$Description = substr($this->blog->text, 0, 200);
+$this->headMeta()->setName('description', $Description);
+	
+?>
+
+<span class="h1-page-title">
+<a href='/'>Главная</a><span class='slash'>\\</span><span class='prod'></span>
+<a href="<?php echo $this->url(array('controller'=>'index', 'action'=>'blog'));?>">Блог</a><span class='slash'>\\</span><span class='prod'></span>
+</span>  
+
+<div class="latest-news">
+   <div class="news-header">
+   <div class="bg-left">
+   <div class="bg-right">
+   <div>
+     <h1 class="h1-latest-news"><?php echo $this->blog->title; ?></h1>
+   </div>
+   </div>
+   </div>
+   </div>
+
+   <div align = "left">
+    <h3></h3>
+    <?php echo $this->blog->text; ?> 
+   </div>
+  
+   <div align = "left">
+   <h3> Дата публикации:  
+   <?php 
+       $date = new Zend_Date($this->blog->date); 
+       $createdDate= $date->get(Zend_Date::DATE_LONG); 
+	   echo $createdDate;
+   ?> 
+   </h3> 
+   </div>   
+   
+</div> 

@@ -1,0 +1,37 @@
+﻿<?php echo '<?xml version="1.0" encoding="UTF-8" ?>' ?>
+<rss version="2.0">
+  <channel>
+    <title>Лента сайта ProVacancy.ru</title>
+    <link>
+	<?php
+     $sitemap_options = Zend_Controller_Front::getInstance()->getParam('bootstrap')->getApplication()->getOption('sitemap');
+	 $sitemap_url = $sitemap_options['url'];	
+	  echo $sitemap_url;
+    ?>
+	</link>
+    <description>Вакансии в Томске</description>
+	<language>ru-ru</language>
+	<pubDate>
+		<?php 
+			$date = new Zend_Date(); 
+			$createdDate= $date->get(Zend_Date::RSS); 
+			echo $createdDate;
+		?>
+	</pubDate>
+	<lastBuildDate>
+		<?php 
+			$date = new Zend_Date(); 
+			$createdDate= $date->get(Zend_Date::RSS); 
+			echo $createdDate;
+		?>
+	</lastBuildDate>
+	<generator>ProVacancy</generator>
+	<managingEditor>admin@domspro.ru</managingEditor>
+	<webMaster>admin@domspro.ru</webMaster>
+
+	<?php
+		echo $this->partialLoop('partials/rss_item.phtml', $this->post);
+	?>
+
+  </channel>
+</rss>

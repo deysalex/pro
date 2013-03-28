@@ -1,0 +1,18 @@
+﻿<url>
+  <loc>
+    <?php echo 'http://domspro.ru/index/selectpost/id/'.$this->id;?>
+  </loc>
+  <lastmod>
+    <?php 
+	  $date = new Zend_Date(); 
+	  $createdDate= $date->get(Zend_Date::ISO_8601); 
+	  echo $createdDate;
+	?>
+  </lastmod>
+  <changefreq>
+    daily
+  </changefreq>
+  <priority>
+    0.50
+  </priority>
+</url>

@@ -1,0 +1,56 @@
+﻿<?php
+// Создаём заголовок страницы, который загрузится в layout
+$this->title = "Мои объявления";
+$this->headTitle($this->title);
+?>
+
+<h1 class="h1-page-title">
+<a href='/'>Главная</a><span class='slash'>\\</span><span class='prod'></span>
+</h1>
+
+
+
+
+<table cellspacing="0"><tr>  
+<!-- LEFT COLUMN start -->    
+<!-- SUBMENU start -->
+<td class="left">
+<div class="left-width">
+ <ul class="submenu">
+  <li><a href="<?php echo $this->url(array('controller'=>'aut', 'action'=>'office'));?>">Мои объявления</a></li> 
+  <li><a href="<?php echo $this->url(array('controller'=>'aut', 'action'=>'changepass'));?>">Сменить пароль</a></li>
+ </ul>
+ </div>
+ </td>  
+ <!-- LEFT COLUMN end -->  
+ <!-- MAIN COLUMN start -->
+ <td class="center">
+ <div class="main-content">
+ <div class="latest-news">
+ 
+   <div class="news-header">
+   <div class="bg-left">
+   <div class="bg-right">
+   <div>
+     <h1 class="h1-latest-news"><?php echo $this->title; ?></h1>
+   </div>
+   </div>
+   </div>
+   </div>
+   <?php
+     echo $this->partialLoop('partials/postlist.phtml', $this->post);
+     echo $this->paginationControl($this->paginator, 'Sliding', 'partials/pagination.phtml'); 
+   ?>
+ 
+
+ </div>    
+ <!-- MAIN CONTENT end -->
+ </div>
+ </td>  <!-- MAIN COLUMN end -->
+ </tr>
+ </table>
+
+
+
+
+

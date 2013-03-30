@@ -10,7 +10,7 @@
    <span class="h2-latest-news">
     <a href="<?php echo '/index/selectpost/id/'.$this->id;?>"><?php echo $this->title; ?></a>
    </span>
-   <p class="blog_content"> <?php echo mb_substr($this->text, 0, 200);?> ... </p>
+   <p class="blog_content"> <?php echo mb_substr($this->text, 0, 200);?> ... <a href="<?php echo '/index/selectpost/id/'.$this->id;?>">Подробнее</a> </p>
    <p class="date-current"> <?php echo 'Просмотров: ' . ($this->review ? $this->review : 'нет');?></p>
 </div> 
 

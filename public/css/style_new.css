@@ -210,10 +210,24 @@ P {margin-top:15px; margin-bottom:0;}
   text-align: right;
 }
 
-
 .lower-menu A {text-decoration:none;}
 .lower-menu A:hover {text-decoration:underline;}
 .lower-menu SPAN {margin:0 10px 0 10px;}
+
+.lower-menu_left {
+  font-size: 80%;
+  color: #C4C9CC; 
+  margin-top: 15px; 
+  padding-bottom: 10px; 
+  padding-right: 10px;
+  border-bottom: 1px solid #DCE2E5; 
+  text-align: left;
+}
+.lower-menu_left A {text-decoration:none;}
+.lower-menu_left A:hover {text-decoration:underline;}
+.lower-menu_left SPAN {margin:0 10px 0 10px;}
+
+
 
 .footer {width: 100%; font-size: 10px; color: #999999; margin: 5px 0 20px 0; min-height: 50px; border-width: 1px; border-color: #FF0000; border-style: solid;}
 .footer .copy {padding-left: 40px; background: url(/images/logo_footer.gif) 7px 2px no-repeat; vertical-align: middle; padding-right: 15px; min-height: 50px;}

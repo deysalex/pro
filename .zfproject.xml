@@ -48,6 +48,7 @@
           <actionMethod actionName="mailtemplate"/>
           <actionMethod actionName="editmailtemplate"/>
           <actionMethod actionName="sendmail"/>
+          <actionMethod actionName="stat"/>
         </controllerFile>
       </controllersDirectory>
       <formsDirectory>
@@ -200,6 +201,9 @@
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Admin">
             <viewScriptFile forActionName="sendmail"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Admin">
+            <viewScriptFile forActionName="stat"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>

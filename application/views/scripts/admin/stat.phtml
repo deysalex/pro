@@ -1,5 +1,6 @@
 ﻿<?php
-$this->title = "Список шаблонов для писем";
+// Создаём заголовок страницы, который загрузится в layout
+$this->title = "Статистика";
 $this->headTitle($this->title);
 ?>
 
@@ -10,9 +11,9 @@ $this->headTitle($this->title);
 <div class="left-width">
  <ul class="submenu">
    <li><a href='/admin/addmailtemplate'>Добавить шаблон для письма</a></li>
-   <li><a href='/admin/addmailtemplate'>Список шаблонов для письма</a></li>
+   <li><a href='/admin/addmailtemplate'>Список шаблонов для письма</a></li>   
    <li><a href='/admin/sendmail'>Отправка писем</a></li>
-   <li><a href='/admin/stat'>Статистика</a></li>  
+   <li><a href='/admin/stat'>Статистика</a></li>   
  </ul>
  </div>
  </td>  
@@ -21,21 +22,18 @@ $this->headTitle($this->title);
  <td class="center">
  <div class="main-content">
  <div class="latest-news">
-   <div class="new-content">
-
-   </div>
+ 
    <div class="news-header">
    <div class="bg-left">
    <div class="bg-right">
    <div>
      <h1 class="h1-latest-news"><?php echo $this->title; ?></h1>
-	 <span class= "addpost"><a href='/admin/addmailtemplate'>Добавить шаблон</a></span>
    </div>
    </div>
    </div>
    </div>
    <?php
-     echo $this->partialLoop('partials/mailtemplate.phtml', $this->mailtemplate);
+     echo $this->partialLoop('partials/stat_city.phtml', $this->city);
    ?>
  
 
@@ -45,3 +43,8 @@ $this->headTitle($this->title);
  </td>  <!-- MAIN COLUMN end -->
  </tr>
  </table>
+
+
+
+
+

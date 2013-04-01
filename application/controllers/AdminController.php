@@ -101,7 +101,7 @@ class AdminController extends Zend_Controller_Action
 	        }
 	    }
     }
-	
+
     private function SendEmail($email, $name, $text)
     {
 	    $mail = new Zend_Mail('UTF-8');
@@ -112,8 +112,18 @@ class AdminController extends Zend_Controller_Action
         $mail->send();
     }
 
+    public function statAction()
+    {
+		$citys = new Application_Model_DbTable_City();
+		$city = $citys->GetStat();
+		
+		$this->view->city = $city;
+    }
+
 
 }
+
+
 
 
 

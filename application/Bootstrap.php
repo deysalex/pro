@@ -51,6 +51,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 			$acl->addResource('editmailtemplate', 'admin');
 			$acl->addResource('mailtemplate', 'admin');
 			$acl->addResource('sendmail', 'admin');
+			$acl->addResource('stat', 'admin');
 			
 			
 	        // далее переходим к созданию ролей, которых у нас 2:
@@ -73,7 +74,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 	         
 	        // разрешаем администратору просматривать страницу ошибок
 			$acl->allow('superadmin', 'index', array('add', 'edit', 'delete', 'ruls', 'postlist', 'selectpost', 'support', 'search', 'addbig', 'changecity', 'mailer', 'importdata','blog', 'addblog', 'addagency', 'addseocategory'));
-	        $acl->allow('superadmin', 'admin', array('index','addmailtemplate', 'editmailtemplate', 'mailtemplate', 'sendmail'));	        
+	        $acl->allow('superadmin', 'admin', array('index','addmailtemplate', 'editmailtemplate', 'mailtemplate', 'sendmail', 'stat'));	        
 			$acl->allow('superadmin', 'error');
 	         
 	        // получаем экземпляр главного контроллера

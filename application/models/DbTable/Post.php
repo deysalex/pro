@@ -135,6 +135,7 @@ class Application_Model_DbTable_Post extends Zend_Db_Table_Abstract
                 'review' => $row->review + 1,
             );           
             $this->update($data, 'id = ' . (int)$id);
-        }			
+        }		
+	
 }
 

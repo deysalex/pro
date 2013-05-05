@@ -220,12 +220,8 @@ P {margin-top:15px; margin-bottom:0;}
   margin-top: 15px; 
   padding-bottom: 10px; 
   padding-right: 10px;
-  border-bottom: 1px solid #DCE2E5; 
   text-align: left;
 }
-.lower-menu_left A {text-decoration:none;}
-.lower-menu_left A:hover {text-decoration:underline;}
-.lower-menu_left SPAN {margin:0 10px 0 10px;}
 
 
 
@@ -496,14 +492,30 @@ div.code {
 
 .search_text {
 	float: left;
-	width: 245px;
+	width: 240px;
 }
 
 .search_button {
 	margin-left:5px;
-	width: 50px;
+	width: 55px;
 }
 
 .search_after {
 	float: none;
+}
+
+.span_submenu{
+	padding:8px 0 8px 15px; 
+	color: #E86519;
+	/*border-bottom:1px solid #DCE2E5;*/ 
+} 
+
+.category_group {
+	font-size:100%; 
+	font-weight:bold; 
+	list-style-type:none; 
+	margin:6px 0 20px 0; 
+	padding:0; 
+	border-top:1px solid #DCE2E5;
+	border-bottom:1px solid #DCE2E5; 
 }

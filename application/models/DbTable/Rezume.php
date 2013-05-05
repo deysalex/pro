@@ -10,13 +10,8 @@ class Application_Model_DbTable_Rezume extends Zend_Db_Table_Abstract
 		$city = new Zend_City_City();  
 			
 		return $this->fetchAll($this->select()->where('city_id = ?', $city->getId())
-												->where('about LIKE ?', '%'.$text.'%')
-												->orwhere('education LIKE ?', '%'.$text.'%')
-												->orwhere('skills LIKE ?', '%'.$text.'%')
-												->orwhere('experience LIKE ?', '%'.$text.'%')
-												->orwhere('other LIKE ?', '%'.$text.'%')
-												->orwhere('contacts LIKE ?', '%'.$text.'%')
-												->order(array('id desc')));        
+												->where('about LIKE ? or education LIKE ? or skills LIKE ? or experience LIKE ? or other LIKE ? or contacts LIKE ?', '%'.$text.'%')	
+												->order(array('id desc')));    											
 	} 
 	
 	public function Add($data)

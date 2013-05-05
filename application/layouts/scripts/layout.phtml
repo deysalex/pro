@@ -4,8 +4,7 @@
     $this->headMeta()->appendHttpEquiv('Pragma', 'no-cache');
     $this->headMeta()->appendHttpEquiv('Cache-Control', 'no-cache');
     
-    $this->headTitle()->setSeparator(' - ');
-    $this->headTitle('Вакансии в Томске. ProVacancy.ru.');
+	$this->headTitle()->setPrefix('Вакансии в Томске. Работа в Томске. ProVacancy.ru. | ');
      
     echo $this->doctype();
 ?>
@@ -20,6 +19,7 @@
 <meta name="robots" content="index,follow" />
 <meta name='yandex-verification' content='63fe593dff248c31' />
 <meta name="google-site-verification" content="PLwmd2PsUKiOc0uWnVWMiGQ4m4phVKYYtKZOoBcOZfY" />
+<link rel="icon" href="<?php echo $this->baseUrl(); ?>/favicon.ico" type="image/x-icon">
 <?php echo $this->headLink()->prependStylesheet($this->baseUrl().'/css/style_new.css'); ?>
 </head>
 <body>
@@ -31,20 +31,12 @@
             <tr>
                 <td class="title">
 				<div class = "logo_title">
-					<h1 class="h1-latest-news">Вакансии в Томске</h1>
+					<a href='/index'><h1 class="h1-latest-news">Вакансии в Томске</h1></a>
 				</div>
-                <?php
-                    /*$city = new Zend_City_City();
-                    echo '<h2>'.$city->getName().'</h2>';  
-                    echo '<h2><a href=/index/changecity>Выбрать другой город...</a></h2>'; */     
-                ?>
                 </td>
                 <td class="search">
-                <!--    <div class="ya-site-form ya-site-form_inited_no" onclick="return {'bg': 'transparent', 'target': '_self', 'language': 'ru', 'suggest': true, 'tld': 'ru', 'site_suggest': true, 'action': 'http://yandex.ru/sitesearch', 'webopt': false, 'fontsize': 12, 'arrow': false, 'fg': '#000000', 'searchid': '1962399', 'logo': 'rb', 'websearch': false, 'type': 3}"><form action="http://yandex.ru/sitesearch" method="get" target="_self"><input type="hidden" name="searchid" value="1962399" /><input type="hidden" name="l10n" value="ru" /><input type="hidden" name="reqenc" value="" /><input type="text" name="text" value="" /><input type="submit" value="Найти" /></form></div><style type="text/css">.ya-page_js_yes .ya-site-form_inited_no { display: none; }</style><script type="text/javascript">(function(w,d,c){var s=d.createElement('script'),h=d.getElementsByTagName('script')[0],e=d.documentElement;(' '+e.className+' ').indexOf(' ya-page_js_yes ')===-1&&(e.className+=' ya-page_js_yes');s.type='text/javascript';s.async=true;s.charset='utf-8';s.src=(d.location.protocol==='https:'?'https:':'http:')+'//site.yandex.net/v2.0/js/all.js';h.parentNode.insertBefore(s,h);(w[c]||(w[c]=[])).push(function(){Ya.Site.Form.init()})})(window,document,'yandex_site_callbacks');</script> -->
-                </td>
-                <td class="search">
-                Вакансии в Томске и Томской области на сайте ProVacancy.ru. Вся работа в Томске. Самые свежие, самые последние вакансии, от прямых работодателей и кадровых агентств!
-                </td>
+				Вакансии в Томске и Томской области на сайте ProVacancy.ru. Вся работа в Томске. Самые свежие, самые последние вакансии, от прямых работодателей и кадровых агентств!
+				</td>
             </tr>
 
         </table>  
@@ -61,7 +53,6 @@
         <div class="bg-right">
             <ul>
                 <li><a href='/index'>Главная</a></li>
-                <li><a href='/index/add'>Добавить</a></li>
                 <li><a href='/index/ruls'>Правила</a></li>
                 <li><a href='/index/support'>Обратная связь</a></li>
                 <li><a href='/index/blog'>Статьи</a></li>
@@ -74,18 +65,14 @@
                     <?php
                     $pAuthIdentity = Zend_Auth::getInstance()->getIdentity();
                     if ($pAuthIdentity) {
-                        $url_logout = $this->url(array('controller'=>'aut', 'action'=>'logout'));
-                        $url_office = $this->url(array('controller'=>'aut', 'action'=>'office'));
                         $username = $pAuthIdentity->username;
                         echo "<li>$username</li> 
-                            <li><a href=\"{$url_office}\">Личный кабинет</a></li>
-                            <li><a href=\"{$url_logout}\">Выход</a></li>";
+                            <li><a href='/aut/office'>Личный кабинет</a></li>
+                            <li><a href='/aut/logout'>Выход</a></li>";
                     } else {
-                        $url = $this->url(array('controller'=>'aut', 'action'=>'login'));
-                        echo "<li><a href=\"{$url}\">Войти в кабинет</a>";  
+                        echo "<li><a href='/aut/login'>Войти в кабинет</a>";  
                         echo " / "; 
-                        $url = $this->url(array('controller'=>'aut', 'action'=>'registration'));
-                        echo "<a href=\"{$url}\">Зарегистрироваться</a></li>";          
+                        echo "<a href='/aut/registration'>Зарегистрироваться</a></li>";          
                     }
                     ?>
             </ul>
@@ -93,8 +80,29 @@
         </div>
         </div>  
         <!-- MAIN MENU end-->
-        <!-- HEADER end -->
-		
+        <!-- HEADER end -->	
+
+
+        <table cellspacing="0" class="top-title">
+            <tr>
+                <td>
+					<div class = "category_group">
+						<a href='/index'>Вакансии</a>
+					</div>
+                </td>
+				<td>
+					<div class = "category_group">
+						<a href='/rezume'>Резюме   <span class='span_submenu'><- новая возможность</span></a>   
+					</div>
+                </td>
+                <td class="search">
+					<script type='text/javascript' src='//yandex.st/share/share.js' charset='utf-8'></script>
+					<div class='yashare-auto-init' data-yashareL10n='ru' data-yashareType='button' data-yashareQuickServices='yaru,vkontakte,facebook,twitter,odnoklassniki,moimir'></div> 
+				</td>
+            </tr>
+
+        </table>
+
         <?php 
             echo $this->layout()->content; 
         ?>
@@ -102,15 +110,18 @@
         <!-- FOOTER start -->
         <div class="lower-menu">
             <a href='/index'>Главная</a><span>|</span>
-            <a href='/index/add'>Добавить</a><span>|</span>
             <a href='/index/ruls'>Правила</a><span>|</span>
             <a href='/index/support'>Обратная связь</a><span>|</span>
             <a href='/index/blog'>Статьи</a><span>|</span>
             <a href='/index/agency'>Агентства</a><span>|</span>
             <a href='/index/rss'>Rss</a>
-            <p>Дата изменений: 28.03.2013</p>
-        </div> 		
-		
+            <p>Дата изменений: 25.01.2013</p>
+        </div> 	
+        <div class="lower-menu">
+				Работа  в   Томске : легко найти
+				На сайте ProVacancy Вас ждет не только банк  вакансий  в   Томске , но и много другой полезной информации: новости рынка труда, обзоры, информационные материалы, каталог кадровых агентств и работодателей, советы по составлению резюме и т.д. Найти работу  в   Томске  несложно: для того, чтобы разместить  вакансию, Вам понадобится всего несколько минут. 
+				ProVacancy старается помочь всем и каждому независимо от социального статуса и семейного положения. Широкие возможности отбора  вакансий  на сайте помогут найти работу  в   Томске  без опыта, по совместительству, со свободным графиком, вахтовым методом - параметры поиска могут быть разными. Достойные работа и зарплата в лучших компаниях  в   Томске  ждут Вас!
+        </div>		
 		
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript">

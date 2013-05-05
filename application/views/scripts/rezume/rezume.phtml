@@ -1,11 +1,11 @@
 ﻿<?php
 // Создаём заголовок страницы, который загрузится в layout
 $this->title = "Объявление";
-$this->headTitle($this->post['current_post']->title);
-$this->headMeta()->setName('description', $this->post['current_post']->text); 
+$this->headTitle($this->rezume['current_rezume']->title);
+$this->headMeta()->setName('description', $this->rezume['current_rezume']->about); 
 
 $Keywords = new Zend_Filter_Keywords(10);
-$this->headMeta()->setName('keywords', $Keywords->filter($this->post['current_post']->text));   
+$this->headMeta()->setName('keywords', $Keywords->filter($this->rezume['current_rezume']->about));   
 ?>
 
 <table cellspacing="0"><tr>  
@@ -14,8 +14,8 @@ $this->headMeta()->setName('keywords', $Keywords->filter($this->post['current_po
 <td class="left">
 <div class="left-width">
  <ul class="submenu">
-    <li><a href='/index/add'><span class='span_submenu'>Добавить вакансию</a></span></li> 
-    <?php echo $this->partialLoop('partials/categorylist.phtml', $this->indexcategory['list']);?>
+    <li><a href='/rezume/addrezume'><span class='span_submenu'>Добавить резюме</a></span></li> 
+    <?php echo $this->partialLoop('partials/categorylist_rezume.phtml', $this->indexcategory['list']);?>
  </ul>
  <table cellspacing="0" class="featured">
    <tr>
@@ -60,32 +60,55 @@ $this->headMeta()->setName('keywords', $Keywords->filter($this->post['current_po
  
  <span class="h1-page-title">
 <a href='/'>Главная</a><span class='slash'>\\</span><span class='prod'></span>
-<a href="<?php echo $this->url(array('controller'=>'index', 'action'=>'postlist', 'id'=>$this->post['current_post']->categoryid));?>"><?php echo $this->indexcategory['current_category']->category_name;?></a><span class='slash'>\\</span><span class='prod'></span>
+<a href="<?php echo $this->url(array('controller'=>'rezume', 'action'=>'listrezume', 'id'=>$this->rezume['current_rezume']->categoryid));?>"><?php echo $this->indexcategory['current_category']->category_name;?></a><span class='slash'>\\</span><span class='prod'></span>
 </span>  
+
  <div class="main-content">
  <div class="latest-news">
    <div class="news-header">
    <div class="bg-left">
    <div class="bg-right">
    <div>
-     <h1 class="h1-latest-news"><?php echo 'Вакансия в Томске: '. $this->post['current_post']->title; ?></h1>
+     <h1 class="h1-latest-news"><?php echo 'Резюме в Томске: '. $this->rezume['current_rezume']->title; ?></h1>
    </div>
    </div>
    </div>
    </div>
 
    <div>
-    <h3></h3>
-    <?php echo $this->post['current_post']->text; ?> 
+    <h3>О себе:</h3>
+    <?php echo $this->rezume['current_rezume']->about; ?> 
    </div>
-  
+   
    <div>
-    <h3> Цена:  <?php echo $this->post['current_post']->price; ?> </h3>
-   </div>  
+    <h3>Образование:</h3>
+    <?php echo $this->rezume['current_rezume']->education; ?> 
+   </div>
+   
+   <div>
+    <h3>Навыки:</h3>
+    <?php echo $this->rezume['current_rezume']->skills; ?> 
+   </div>
+   
+   <div>
+    <h3>Опыт работы:</h3>
+    <?php echo $this->rezume['current_rezume']->experience; ?> 
+   </div>
+   
+   <div>
+    <h3>Прочее:</h3>
+    <?php echo $this->rezume['current_rezume']->other; ?> 
+   </div>
+   
+   <div>
+    <h3>Контакты:</h3>
+    <?php echo $this->rezume['current_rezume']->contacts; ?> 
+   </div>
+   
    <div>
    <h3> Дата публикации:  
    <?php 
-       $date = new Zend_Date($this->post['current_post']->date); 
+       $date = new Zend_Date($this->rezume['current_rezume']->date); 
        $createdDate= $date->get(Zend_Date::DATE_LONG); 
        echo $createdDate;
    ?> 
@@ -94,21 +117,6 @@ $this->headMeta()->setName('keywords', $Keywords->filter($this->post['current_po
  </div>    
  <!-- MAIN CONTENT end -->
  </div>
- 
-<script type="text/javascript"><!--
-google_ad_client = "ca-pub-5051941505461758";
-/* vacancy_top */
-google_ad_slot = "1380622535";
-google_ad_width = 468;
-google_ad_height = 60;
-//-->
-</script>
-<script type="text/javascript"
-src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-</script> 
- 
- 
- 
  
  <div class="latest-news">
    <div class="news-header">
@@ -122,7 +130,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
    </div>
 
    <?php
-     //echo $this->partialLoop('partials/postlist.phtml', $this->post['similar_post']);
+     //echo $this->partialLoop('partials/rezumelist.phtml', $this->rezume['similar_rezume']);
    ?>
    
  </div>    

@@ -120,8 +120,78 @@ class AdminController extends Zend_Controller_Action
 		$this->view->city = $city;
     }
 
+    public function addseoAction()
+    {
+        $form = new Application_Form_Addseo();	       
+	    $this->view->form = $form;	
+	
+	    if ($this->getRequest()->isPost()) {
+	        $formData = $this->getRequest()->getPost();	     
+	        if ($form->isValid($formData)) {
+			
+	            $name = $form->getValue('name');
+	            $text = $form->getValue('text');				
+	            
+				$seo = new Application_Model_DbTable_Seo();
+				
+				$citys = new Application_Model_DbTable_City();
+				foreach ($citys->GetAll() as $city) {
+					$seo->Add($name, $text, $city->id);
+				}	
+			    
+				$this->_helper->redirector('listseo');
+	        } else {
+	            $form->populate($formData);
+	        }
+	    }
+    }
+
+    public function editseoAction()
+    {
+	    $id = $this->_getParam('id', 0);
+	    if ($id > 0) {	
+			$seos = new Application_Model_DbTable_Seo();
+			$seo = $seos->GetById($id);
+			
+			$form = new Application_Form_Addseo();
+			$form->name->setValue($seo->name);
+			$form->text->setValue($seo->text);
+			
+			$this->view->form = $form;
+			
+			if ($this->getRequest()->isPost()) {	
+				$formData = $this->getRequest()->getPost();	     
+				if ($form->isValid($formData)) {
+			
+					$name = $form->getValue('name');
+					$text = $form->getValue('text');				
+	            
+					$seo = new Application_Model_DbTable_Seo();
+					$seo->Edit($id, $name, $text);		
+			    
+					$this->_helper->redirector('listseo');
+				} else {
+					$form->populate($formData);
+				}
+			} 
+		}
+    }
+
+    public function listseoAction()
+    {
+		$seos = new Application_Model_DbTable_Seo();
+		$seolist = $seos->GetAll();
+		$this->view->seo = $seolist;
+    }
+
 
 }
+
+
+
+
+
+
 
 
 

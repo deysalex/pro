@@ -1,4 +1,22 @@
 ﻿<div class="new-content">
+	<?php 
+	
+		if ($this->partialCounter == 4 || $this->partialCounter == 8) {
+			echo '<script type="text/javascript"><!--
+					google_ad_client = "ca-pub-5051941505461758";
+					/* vacancy_center2 */
+					google_ad_slot = "7430816131";
+					google_ad_width = 468;
+					google_ad_height = 60;
+					//-->
+					</script>
+					<script type="text/javascript"
+					src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+				  </script>
+				  <hr />';
+		} 
+	?>
+	
    <p class="date-current">
      <?php 
 	   $date = new Zend_Date($this->date); 
@@ -10,8 +28,11 @@
    <span class="h2-latest-news">
     <a href="<?php echo '/index/selectpost/id/'.$this->id;?>"><?php echo $this->title; ?></a>
    </span>
-   <p class="blog_content"> <?php echo mb_substr($this->text, 0, 200);?> ... <a href="<?php echo '/index/selectpost/id/'.$this->id;?>">Подробнее</a> </p>
-   <p class="date-current"> <?php echo 'Просмотров: ' . ($this->review ? $this->review : 'нет');?></p>
+   <p class="blog_content"> <?php echo mb_substr($this->text, 0, 200);?> <a href="<?php echo '/index/selectpost/id/'.$this->id;?>"> ... Подробнее</a></p>
+   <p class="date-current"> <?php echo 'Оклад: ' . $this->price;?></p>
+   <p class="date-current"> Работа в Томске         :<?php echo ':       Просмотров: ' . ($this->review ? $this->review : 'нет');?></p>
+   <hr />
+   
 </div> 
 
 

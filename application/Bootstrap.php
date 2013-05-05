@@ -52,7 +52,16 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 			$acl->addResource('mailtemplate', 'admin');
 			$acl->addResource('sendmail', 'admin');
 			$acl->addResource('stat', 'admin');
+			$acl->addResource('listseo', 'admin');
+			$acl->addResource('addseo', 'admin');
+			$acl->addResource('editseo', 'admin');
 			
+			$acl->addResource('export');
+			$acl->addResource('yandex', 'export');
+			
+			$acl->addResource('rezume');
+			$acl->addResource('addrezume', 'rezume');	
+			//$acl->addResource('rezume', 'rezume');			
 			
 	        // далее переходим к созданию ролей, которых у нас 2:
 	        // гость (неавторизированный пользователь)
@@ -63,18 +72,22 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 	        $acl->addRole('superadmin', 'admin');
 			
 	        // разрешаем гостю просматривать ресурс index
-	        $acl->allow('guest', 'index', array('index', 'ruls', 'postlist', 'selectpost', 'support', 'search', 'changecity', 'generatesitemap', 'blog', 'selectblog', 'rss', 'agency'));
+	        $acl->allow('guest', 'index', array('index', 'add', 'ruls', 'postlist', 'selectpost', 'support', 'search', 'changecity', 'generatesitemap', 'blog', 'selectblog', 'rss', 'agency'));
+			$acl->allow('guest', 'export', array('index', 'yandex'));
+			$acl->allow('guest', 'rezume', array('index', 'addrezume', 'rezume', 'listrezume'));
+			$acl->allow('guest', 'error');
 	         
 	        // разрешаем гостю просматривать ресурс auth и его подресурсы
 	        $acl->allow('guest', 'aut', array('index', 'login', 'logout', 'registration', 'message'));
 	         
 	        // даём администратору доступ к ресурсам 'add', 'edit' и 'delete'
 	        $acl->allow('admin', 'index', array('add', 'edit', 'delete', 'ruls', 'postlist', 'selectpost', 'support', 'search', 'addbig', 'changecity', 'blog', 'agency', 'addagency'));
-	        $acl->allow('admin', 'aut', array('index', 'login', 'logout', 'registration', 'message', 'office', 'changepass'));
+	        $acl->allow('admin', 'aut', array('index', 'login', 'logout', 'registration', 'message', 'office', 'changepass', 'editpost', 'rezume', 'editrezume'));
 	         
 	        // разрешаем администратору просматривать страницу ошибок
 			$acl->allow('superadmin', 'index', array('add', 'edit', 'delete', 'ruls', 'postlist', 'selectpost', 'support', 'search', 'addbig', 'changecity', 'mailer', 'importdata','blog', 'addblog', 'addagency', 'addseocategory'));
-	        $acl->allow('superadmin', 'admin', array('index','addmailtemplate', 'editmailtemplate', 'mailtemplate', 'sendmail', 'stat'));	        
+	        $acl->allow('superadmin', 'admin', array('index','addmailtemplate', 'editmailtemplate', 'mailtemplate', 'sendmail', 'stat', 'listseo', 'addseo', 'editseo'));	   
+			$acl->allow('superadmin', 'export', array('index', 'yandex'));				
 			$acl->allow('superadmin', 'error');
 	         
 	        // получаем экземпляр главного контроллера
@@ -93,7 +106,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 			);
 
 			$tr = new Zend_Mail_Transport_Smtp('smtp.provacancy.ru', $smtpConfig);
-			Zend_Mail::setDefaultTransport($tr);
+			Zend_Mail::setDefaultTransport($tr);			
 	    }
 }
 

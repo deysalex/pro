@@ -1,0 +1,38 @@
+﻿<div class="new-content">
+	<?php 
+	
+		if ($this->partialCounter == 4 || $this->partialCounter == 8) {
+			echo '<script type="text/javascript"><!--
+					google_ad_client = "ca-pub-5051941505461758";
+					/* vacancy_center2 */
+					google_ad_slot = "7430816131";
+					google_ad_width = 468;
+					google_ad_height = 60;
+					//-->
+					</script>
+					<script type="text/javascript"
+					src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+				  </script>
+				  <hr />';
+		} 
+	?>
+	
+	<p class="date-current">
+	<?php 
+		$date = new Zend_Date($this->date); 
+		$createdDate= $date->get(Zend_Date::DATE_LONG); 
+		$city = new Zend_City_City();
+	   
+		echo $createdDate .' '. $city->getName(); 
+	?> </p>
+	<span class="h2-latest-news">
+		<a href="<?php echo '/rezume/rezume/id/'.$this->id;?>"><?php echo $this->title; ?></a>
+	</span>
+	<p class="blog_content"> <?php echo mb_substr($this->text, 0, 200);?> <a href="<?php echo '/rezume/rezume/id/'.$this->id;?>"> ... Подробнее</a></p>
+	<div class="lower-menu">
+		<a href="<?php echo '/aut/editrezume/id/'.$this->id;?>">Редактировать</a>
+	</div> 
+   
+</div> 
+
+

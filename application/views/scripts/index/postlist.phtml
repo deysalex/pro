@@ -4,27 +4,22 @@ $title = $this->title;
 $description = $this->title;
 $texttop = "";
 if ($this->seocategory != null) {
-	$title = $this->seocategory->title;
-	$description = $this->seocategory->description;
-	$texttop = $this->seocategory->texttop;
+    $title = $this->seocategory->title;
+    $description = $this->seocategory->description;
+    $texttop = $this->seocategory->texttop;
 }
 $this->headTitle($title);
 
 $keywords = "";
 foreach ($this->post as $postItem) {
     $filter = new Zend_Filter_Keywords(10);
-	$keyword = $filter->filter($postItem->text);
-	$keywords = $keywords . $keyword;
+    $keyword = $filter->filter($postItem->text);
+    $keywords = $keywords . $keyword;
 }
 
-//$this->headMeta()->setName('keywords', $keywords);	
+//$this->headMeta()->setName('keywords', $keywords);    
 $this->headMeta()->setName('description', $description);
 ?>
-
-<span class="h1-page-title">
-<a href='/'>Главная</a><span class='slash'>\\</span><span class='prod'></span>
-</span>
-
 
 <table cellspacing="0"><tr>  
 <!-- LEFT COLUMN start -->    
@@ -32,62 +27,73 @@ $this->headMeta()->setName('description', $description);
 <td class="left">
 <div class="left-width">
  <ul class="submenu">
-   <?php echo $this->partialLoop('partials/categorylist.phtml', $this->indexcategory);?>
+    <li><a href='/index/add'><span class='span_submenu'>Добавить вакансию</a></span></li> 
+    <?php echo $this->partialLoop('partials/categorylist.phtml', $this->indexcategory);?>
  </ul>
  <table cellspacing="0" class="featured">
    <tr>
      <td>
      <div class="border-block">
-	 <div class="b">
-	 <div class="l">
-	 <div class="r">
-	 <div class="l-t">
-	 <div class="r-t">
-	 <div class="l-b">
-	 <div class="r-b">
-	 
+     <div class="b">
+     <div class="l">
+     <div class="r">
+     <div class="l-t">
+     <div class="r-t">
+     <div class="l-b">
+     <div class="r-b">
+     
+        <script type="text/javascript"><!--
+        google_ad_client = "ca-pub-5051941505461758";
+        /* vacancy_left */
+        google_ad_slot = "4379081732";
+        google_ad_width = 300;
+        google_ad_height = 250;
+        //-->
+        </script>
+        <script type="text/javascript"
+        src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+        </script>
 
-
-	 </div>
-	 </div>
-	 </div>
-	 </div>
-	 </div>
-	 </div>
-	 </div>
-	 </div>
-	 </td>
+     </div>
+     </div>
+     </div>
+     </div>
+     </div>
+     </div>
+     </div>
+     </div>
+     </td>
    </tr>
    <tr>
      <td>
      <div class="border-block">
-	 <div class="b">
-	 <div class="l">
-	 <div class="r">
-	 <div class="l-t">
-	 <div class="r-t">
-	 <div class="l-b">
-	 <div class="r-b">
-	 
-	 <span class="textleft">
-		<?php 
-			$texttop = "";
-			if ($this->seocategory != null) {
-				$texttop = $this->seocategory->textleft;
-			}
-			echo $texttop; 
-		?>
-	 </span>
+     <div class="b">
+     <div class="l">
+     <div class="r">
+     <div class="l-t">
+     <div class="r-t">
+     <div class="l-b">
+     <div class="r-b">
+     
+     <span class="textleft">
+        <?php 
+            $texttop = "";
+            if ($this->seocategory != null) {
+                $texttop = $this->seocategory->textleft;
+            }
+            echo $texttop; 
+        ?>
+     </span>
 
-	 </div>
-	 </div>
-	 </div>
-	 </div>
-	 </div>
-	 </div>
-	 </div>
-	 </div>
-	 </td>
+     </div>
+     </div>
+     </div>
+     </div>
+     </div>
+     </div>
+     </div>
+     </div>
+     </td>
    </tr>   
  </table>
  </div>
@@ -95,32 +101,37 @@ $this->headMeta()->setName('description', $description);
  <!-- LEFT COLUMN end -->  
  <!-- MAIN COLUMN start -->
  <td class="center">
+ 
+ <span class="h1-page-title">
+ <a href='/'>Главная</a><span class='slash'>\\</span><span class='prod'></span>
+ </span>
+ 
  <div class="main-content">
  <div class="latest-news">
    <div class="new-content">
-	<span class="h2-latest-news">
-		<?php 
-			$texttop = "";
-			if ($this->seocategory != null) {
-				$texttop = $this->seocategory->texttop;
-			}
-			echo $texttop; 
-		?>
-	</span>
+    <span class="h2-latest-news">
+        <?php 
+            $texttop = "";
+            if ($this->seocategory != null) {
+                $texttop = $this->seocategory->texttop;
+            }
+            echo $texttop; 
+        ?>
+    </span>
    </div>
    <div class="news-header">
    <div class="bg-left">
    <div class="bg-right">
    <div>
      <h1 class="h1-latest-news"><?php echo $this->title; ?></h1>
-	 <span class= "addpost"><a href='/index/add'>Добавить объявление</a></span>
+     <span class= "addpost"><a href='/index/add'>Добавить объявление</a></span>
    </div>
    </div>
    </div>
    </div>
    <?php
-     echo $this->partialLoop('partials/postlist.phtml', $this->post);
-     echo $this->paginationControl($this->paginator, 'Sliding', 'partials/pagination.phtml'); 
+        echo $this->partialLoop('partials/postlist.phtml', $this->post);
+        echo $this->paginationControl($this->paginator, 'Sliding', 'partials/pagination.phtml'); 
    ?>
  
 

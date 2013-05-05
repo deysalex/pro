@@ -1,6 +1,6 @@
 ﻿<?php
 
-class Application_Form_Addagency extends Zend_Form
+class Application_Form_Editpost extends Zend_Form
 {
 
     public function init()
@@ -10,7 +10,8 @@ class Application_Form_Addagency extends Zend_Form
         $title = new Zend_Form_Element_Text('title', array(
             'required'    => true,
             'label'       => 'Заголовок:',
-            'maxlength'   => '200',		
+            'maxlength'   => '200',
+			'class'       => 'addinput',			
             'filters'     => array('StringTrim'),
         ));
 		
@@ -26,84 +27,41 @@ class Application_Form_Addagency extends Zend_Form
         )); 
         $this->addElement($title);
 		//--------------------------------------------------------------------------------------
-        $description = new Zend_Form_Element_Textarea('description', array(
-            'label'       => 'Описание:',
-            'cols'        => '50',	
-			'rows'        => '10',				
+        $text = new Zend_Form_Element_Textarea('text', array(
+            'label'       => 'Текст:',
+            'rows'        => '20',
+            'cols'        => '60',
+			'class'       => 'add',			
             'validators'  => array(
                 array('StringLength', true, array(0, 5000))
              ),
             'filters'     => array('StringTrim'),
         )); 
 	
-		$description->setDecorators(array(
+		$text->setDecorators(array(
             'ViewHelper',
             'Errors',
             array(array('data' => 'HtmlTag'), array('tag' => 'td', 'class'  => 'element')),
             array('Label', array('tag' => 'td')),
             array(array('row' => 'HtmlTag'), array('tag' => 'tr')),
         )); 		
-        $this->addElement($description);	
-		//--------------------------------------------------------------------------------------
-        $url = new Zend_Form_Element_Text('url', array(
+        $this->addElement($text);	
+		//--------------------------------------------------------------------------------------		
+        $price = new Zend_Form_Element_Text('price', array(
             'required'    => true,
-            'label'       => 'Адрес сайта:',
-            'maxlength'   => '200',		
+            'label'       => 'З.П.:',
+            'maxlength'   => '30',
+			'class'       => 'addpriceinput',			
             'filters'     => array('StringTrim'),
-			'value'       => 'http://',
         ));
-		
-		$url->addValidator('NotEmpty', true,
-            array('messages' => array('isEmpty' => $isEmptyMessage)));
-				
-		$url->setDecorators(array(
+		$price->setDecorators(array(
             'ViewHelper',
-            'Errors',
+            'Errors',		
             array(array('data' => 'HtmlTag'), array('tag' => 'td', 'class'  => 'element')),
             array('Label', array('tag' => 'td')),
             array(array('row' => 'HtmlTag'), array('tag' => 'tr')),
-        )); 
-        $this->addElement($url);
-		//--------------------------------------------------------------------------------------	
-		$phone = new Zend_Form_Element_Text('phone', array(
-            'required'    => true,
-            'label'       => 'Телефон:',
-            'maxlength'   => '200',		
-            'filters'     => array('StringTrim'),
-        ));
-		
-		$phone->addValidator('NotEmpty', true,
-            array('messages' => array('isEmpty' => $isEmptyMessage)));
-				
-		$phone->setDecorators(array(
-            'ViewHelper',
-            'Errors',
-            array(array('data' => 'HtmlTag'), array('tag' => 'td', 'class'  => 'element')),
-            array('Label', array('tag' => 'td')),
-            array(array('row' => 'HtmlTag'), array('tag' => 'tr')),
-        )); 
-        $this->addElement($phone);
-		//--------------------------------------------------------------------------------------
-		$city = new Zend_City_City();
-		$address = new Zend_Form_Element_Text('address', array(
-            'required'    => true,
-            'label'       => 'Адрес:',
-            'maxlength'   => '200',		
-            'filters'     => array('StringTrim'),
-			'value'       => $city->getName() . ', ',
-        ));
-		
-		$address->addValidator('NotEmpty', true,
-            array('messages' => array('isEmpty' => $isEmptyMessage)));
-				
-		$address->setDecorators(array(
-            'ViewHelper',
-            'Errors',
-            array(array('data' => 'HtmlTag'), array('tag' => 'td', 'class'  => 'element')),
-            array('Label', array('tag' => 'td')),
-            array(array('row' => 'HtmlTag'), array('tag' => 'tr')),
-        )); 
-        $this->addElement($address);
+        )); 		
+        $this->addElement($price);	
 		//--------------------------------------------------------------------------------------		
         // Кнопка Submit
         $save = new Zend_Form_Element_Submit('Save', array(

@@ -17,60 +17,37 @@ class AutController extends Zend_Controller_Action
 
     public function loginAction()
     {
-            // проверяем, авторизирован ли пользователь
 	    if (Zend_Auth::getInstance()->hasIdentity()) {
-	        // если да, то делаем редирект, чтобы исключить многократную авторизацию
 	        $this->_helper->redirector('index', 'index');
 	    }
 	     
-	    // создаём форму и передаём её во view
 	    $form = new Application_Form_Login();
 	    $this->view->form = $form;
 	     
-	    // Если к нам идёт Post запрос
 	    if ($this->getRequest()->isPost()) {
-	        // Принимаем его
 	        $formData = $this->getRequest()->getPost();
 	         
-	        // Если форма заполнена верно
 	        if ($form->isValid($formData)) {
-	            // Получаем адаптер подключения к базе данных
 	            $authAdapter = new Zend_Auth_Adapter_DbTable(Zend_Db_Table::getDefaultAdapter());
 	             
-	            // указываем таблицу, где необходимо искать данные о пользователях
-	            // колонку, где искать имена пользователей,
-	            // а также колонку, где хранятся пароли
 	            $authAdapter->setTableName('users')
 	                ->setIdentityColumn('username')
 	                ->setCredentialColumn('password');
-	            // получаем введённые данные
+
 	            $username = $this->getRequest()->getPost('username');
 	            $password = $this->getRequest()->getPost('password');
+
+	            $authAdapter->setIdentity($username)->setCredential($password);
 	             
-	            // подставляем полученные данные из формы
-	            $authAdapter->setIdentity($username)
-	                ->setCredential($password);
-	             
-	            // получаем экземпляр Zend_Auth
 	            $auth = Zend_Auth::getInstance();
-	             
-	            // делаем попытку авторизировать пользователя
 	            $result = $auth->authenticate($authAdapter);
 	             
-	            // если авторизация прошла успешно
 	            if ($result->isValid()) {
-	                // используем адаптер для извлечения оставшихся данных о пользователе
 	                $identity = $authAdapter->getResultRowObject();
-	                 
-	                // получаем доступ к хранилищу данных Zend
 	                $authStorage = $auth->getStorage();
 	                 
-	                // помещаем туда информацию о пользователе,
-	                // чтобы иметь к ним доступ при конфигурировании Acl
 	                $authStorage->write($identity);
 	                 
-	                // Используем библиотечный helper для редиректа
-	                // на controller = index, action = index
 	                $this->_helper->redirector('index', 'index');
 	            } else {
 	                $this->view->errMessage = 'Вы ввели неверное имя пользователя или неверный пароль';
@@ -81,25 +58,17 @@ class AutController extends Zend_Controller_Action
 
     public function logoutAction()
     {
-            // уничтожаем информацию об авторизации пользователя
 	    Zend_Auth::getInstance()->clearIdentity();
-	     
-	    // и отправляем его на главную
 	    $this->_helper->redirector('index', 'index');
     }
 
     public function registrationAction()
     {
-		// создаём форму и передаём её во view
 	    $form = new Application_Form_Registration();
 	    $this->view->form = $form;
 		 
-	    // Если к нам идёт Post запрос
 	    if ($this->getRequest()->isPost()) {
-	        // Принимаем его
-	        $formData = $this->getRequest()->getPost();
-	         
-	        // Если форма заполнена верно		
+	        $formData = $this->getRequest()->getPost();		
 	        if ($form->isValid($formData)) {
 				$username = $form->getValue('username');
 		        $email = $form->getValue('email');	
@@ -169,8 +138,6 @@ class AutController extends Zend_Controller_Action
 
     public function messageAction()
     {
-        $form = new Application_Form_Message();
-		//$this->view->errMessage = $this->m_strMessage;
     }
 
     public function mailerAction()
@@ -203,10 +170,7 @@ class AutController extends Zend_Controller_Action
 	    $this->view->form = $form; 
         
 		if ($this->getRequest()->isPost()) {
-	        // Принимаем его
-	        $formData = $this->getRequest()->getPost();
-	         
-	        // Если форма заполнена верно		
+	        $formData = $this->getRequest()->getPost();	
 	        if ($form->isValid($formData)) {
 				$password_old = $form->getValue('password_old');
 		        $password_new = $form->getValue('password_new');	
@@ -233,7 +197,7 @@ class AutController extends Zend_Controller_Action
 	        }
 	    }
     }
-	
+
     private function CreateEmailTextChangePassword($username, $password)
     {
 	    $mailtemplates = new Application_Model_DbTable_Mailtemplate();
@@ -244,7 +208,116 @@ class AutController extends Zend_Controller_Action
 		return $text;
     }
 
+    public function editpostAction()
+    {
+	    $id = $this->_getParam('id', 0);
+	    if ($id > 0) {	
+			$posts = new Application_Model_DbTable_Post();
+			$post = $posts->GetById($id);
+			
+			if (!$post) {
+				throw new Zend_Controller_Dispatcher_Exception();
+			}
+			
+			if ($this->checkAccess($post->user_id)) {
+				$form = new Application_Form_Editpost();
+				$form->title->setValue($post->title);
+				$form->text->setValue(str_replace("<br /> ","\r\n",$post->text));
+				$form->price->setValue($post->price);
+				$this->view->form = $form;
+			
+				if ($this->getRequest()->isPost()) {	
+					$formData = $this->getRequest()->getPost();	     
+					if ($form->isValid($formData)) {
+						$title = $form->getValue('title');
+						$text = $form->getValue('text');
+						$price = $form->getValue('price');
+
+						$posts->Edit($id, $title, $text, $price);		
+						$this->_helper->redirector('office');
+					} else {
+						$form->populate($formData);
+					}
+				} 
+			}
+		}
+    }
+
+    private function checkAccess($user_id)
+    {
+		$pAuthIdentity = Zend_Auth::getInstance()->getIdentity();
+		return $pAuthIdentity->id == $user_id;
+    }
+
+    public function rezumeAction()
+    {
+		$rezumes = new Application_Model_DbTable_Rezume();
+			
+		$paginator = Zend_Paginator::factory($rezumes->GetForCurrentUser());      
+        $paginator->setCurrentPageNumber($this->_getParam('page', 1)); // page number
+        $paginator->setItemCountPerPage(30); // number of items to show per page
+			
+	    $this->view->rezume = $paginator;
+	    $this->view->paginator = $paginator;
+    }
+
+    public function editrezumeAction()
+    {
+	    $id = $this->_getParam('id', 0);
+	    if ($id > 0) {	
+			$rezumes = new Application_Model_DbTable_Rezume();
+			$rezume = $rezumes->GetById($id);
+			
+			if (!$rezume) {
+				throw new Zend_Controller_Dispatcher_Exception();
+			}
+			
+			if ($this->checkAccess($rezume->user_id)) {
+			
+				$form = new Application_Form_Editrezume();
+				
+				$form->title->setValue($rezume->title);
+				$form->about->setValue(str_replace("<br /> ","\r\n", $rezume->about));
+				$form->education->setValue(str_replace("<br /> ","\r\n", $rezume->education));
+				$form->skills->setValue(str_replace("<br /> ","\r\n", $rezume->skills));
+				$form->experience->setValue(str_replace("<br /> ","\r\n", $rezume->experience));
+				$form->other->setValue(str_replace("<br /> ","\r\n", $rezume->other));
+				$form->contacts->setValue(str_replace("<br /> ","\r\n", $rezume->contacts));
+				
+				$this->view->form = $form;
+			
+				if ($this->getRequest()->isPost()) {	
+					$formData = $this->getRequest()->getPost();	     
+					if ($form->isValid($formData)) {
+
+						$data = array(
+							'title' => $form->getValue('title'),
+							'about' => $form->getValue('about'),    
+							'education' => $form->getValue('education'),
+							'skills' => $form->getValue('skills'),
+							'experience' => $form->getValue('experience'),
+							'other' => $form->getValue('other'),
+							'contacts' => $form->getValue('contacts'),
+						);
+						$rezumes->Edit($id, $data);	
+						
+						$this->_helper->redirector('rezume');
+					} else {
+						$form->populate($formData);
+					}
+				} 
+			}
+		}
+    }
+
+
 }
+
+
+
+
+
+
 
 
 

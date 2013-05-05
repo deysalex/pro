@@ -16,10 +16,7 @@ $this->headTitle($this->title);
 <!-- SUBMENU start -->
 <td class="left">
 <div class="left-width">
- <ul class="submenu">
-  <li><a href="<?php echo $this->url(array('controller'=>'aut', 'action'=>'office'));?>">Мои объявления</a></li> 
-  <li><a href="<?php echo $this->url(array('controller'=>'aut', 'action'=>'changepass'));?>">Сменить пароль</a></li>
- </ul>
+	<?php echo $this->autsubmenu(); ?>
  </div>
  </td>  
  <!-- LEFT COLUMN end -->  

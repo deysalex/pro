@@ -41,6 +41,9 @@
           <actionMethod actionName="mailer"/>
           <actionMethod actionName="office"/>
           <actionMethod actionName="changepass"/>
+          <actionMethod actionName="editpost"/>
+          <actionMethod actionName="rezume"/>
+          <actionMethod actionName="editrezume"/>
         </controllerFile>
         <controllerFile controllerName="Admin">
           <actionMethod actionName="index"/>
@@ -48,7 +51,21 @@
           <actionMethod actionName="mailtemplate"/>
           <actionMethod actionName="editmailtemplate"/>
           <actionMethod actionName="sendmail"/>
-          <actionMethod actionName="stat"/>
+          <actionMethod actionName="addseo"/>
+          <actionMethod actionName="editseo"/>
+          <actionMethod actionName="listseo"/>
+        </controllerFile>
+        <controllerFile controllerName="Export">
+          <actionMethod actionName="index"/>
+          <actionMethod actionName="yandex"/>
+        </controllerFile>
+        <controllerFile controllerName="Rezume">
+          <actionMethod actionName="index"/>
+          <actionMethod actionName="addrezume"/>
+          <actionMethod actionName="listrezume"/>
+          <actionMethod actionName="editrezume"/>
+          <actionMethod actionName="deleterezume"/>
+          <actionMethod actionName="rezume"/>
         </controllerFile>
       </controllersDirectory>
       <formsDirectory>
@@ -71,6 +88,11 @@
         <formFile formName="Search"/>
         <formFile formName="Addmailtemplate"/>
         <formFile formName="Sendmail"/>
+        <formFile formName="Addseo"/>
+        <formFile formName="Editseo"/>
+        <formFile formName="Addrezume"/>
+        <formFile formName="Editpost"/>
+        <formFile formName="Editrezume"/>
       </formsDirectory>
       <layoutsDirectory>
         <layoutScriptsDirectory>
@@ -92,6 +114,8 @@
           <dbTableFile dbTableName="Agency"/>
           <dbTableFile dbTableName="Seocategory"/>
           <dbTableFile dbTableName="Mailtemplate"/>
+          <dbTableFile dbTableName="Seo"/>
+          <dbTableFile dbTableName="Rezume"/>
         </dbTableDirectory>
       </modelsDirectory>
       <modulesDirectory enabled="false"/>
@@ -203,7 +227,46 @@
             <viewScriptFile forActionName="sendmail"/>
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Admin">
-            <viewScriptFile forActionName="stat"/>
+            <viewScriptFile forActionName="addseo"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Admin">
+            <viewScriptFile forActionName="editseo"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Admin">
+            <viewScriptFile forActionName="listseo"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Export">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Export">
+            <viewScriptFile forActionName="yandex"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Rezume">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Rezume">
+            <viewScriptFile forActionName="addrezume"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Rezume">
+            <viewScriptFile forActionName="listrezume"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Rezume">
+            <viewScriptFile forActionName="editrezume"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Rezume">
+            <viewScriptFile forActionName="deleterezume"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Rezume">
+            <viewScriptFile forActionName="rezume"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Aut">
+            <viewScriptFile forActionName="editpost"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Aut">
+            <viewScriptFile forActionName="rezume"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Aut">
+            <viewScriptFile forActionName="editrezume"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>

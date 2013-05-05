@@ -1,9 +1,9 @@
 ﻿<?php
 // Создаём заголовок страницы, который загрузится в layout
-$this->title = $this->seo->GetByName('main_title')->text;
+$this->title = $this->seo->GetByName('main_rezume_title')->text;
 $this->headTitle($this->title);
 
-$description = $this->seo->GetByName('main_description')->text;
+$description = $this->seo->GetByName('main_rezume_description')->text;
 
 $this->headMeta()->setName('description', $description);
 ?>
@@ -21,8 +21,8 @@ $this->headMeta()->setName('description', $description);
 <td class="left">
 <div class="left-width">
  <ul class="submenu">
-    <li><a href='/index/add'><span class='span_submenu'>Добавить вакансию</span></a></li> 
-    <?php echo $this->partialLoop('partials/categorylist.phtml', $this->indexcategory);?>
+    <li><a href='/rezume/addrezume'><span class='span_submenu'>Добавить резюме</a></span></li>
+    <?php echo $this->partialLoop('partials/categorylist_rezume.phtml', $this->indexcategory);?>
  </ul>
  <table cellspacing="0" class="featured">
    <tr>
@@ -109,13 +109,13 @@ $this->headMeta()->setName('description', $description);
    <div class="bg-right">
    <div>
      <h1 class="h1-latest-news"><?php echo $this->title; ?></h1>
-     <span class= "addpost"><a href='/index/add'>Добавить вакансию</a></span>
+     <span class= "addpost"><a href='/rezume/addrezume'>Добавить резюме</a></span>
    </div>
    </div>
    </div>
    </div>
    <?php
-     echo $this->partialLoop('partials/postlist.phtml', $this->post);
+     echo $this->partialLoop('partials/rezumelist.phtml', $this->rezume);
      echo $this->paginationControl($this->paginator, 'Sliding', 'partials/pagination.phtml'); 
    ?>
  

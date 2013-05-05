@@ -26,7 +26,7 @@ class Application_Model_DbTable_Indexcategory extends Zend_Db_Table_Abstract
 	   return $this->fetchAll($select);
    }
    
-    public function GetCategorys()
+    public function GetCategorys($group_id)
    {
 	   $city = new Zend_City_City();
 
@@ -37,15 +37,16 @@ class Application_Model_DbTable_Indexcategory extends Zend_Db_Table_Abstract
 	  
 	   $select = $this->select()->from(array('category' => 'indexcategory'), array('category_id', 'category_name'));
 	   $select = $select->setIntegrityCheck(false);
-	   $select->joinLeft(array('counter' => $firstQuery), 'category.category_id = counter.categoryid', array('count'));         
+	   $select->joinLeft(array('counter' => $firstQuery), 'category.category_id = counter.categoryid', array('count'));    
+	   $select->where('group_id = ?', $group_id);
 	   $select->group('category.category_id');													
 				
 	   return $this->fetchAll($select);
    }   
 	
-    public function GetIndexCategorys()
+    public function GetIndexCategorys($group_id)
    {
-	   $select = $this->select();		  	  
+	   $select = $this->select()->where('group_id = ?', $group_id);		  	  
 	   return $this->fetchAll($select);
    }
 

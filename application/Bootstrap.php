@@ -61,7 +61,18 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 			
 			$acl->addResource('rezume');
 			$acl->addResource('addrezume', 'rezume');	
-			//$acl->addResource('rezume', 'rezume');			
+			
+			$acl->addResource('omsk');	
+			$acl->addResource('automsk');		
+
+			$acl->addResource('kemerovo');	
+			$acl->addResource('autkemerovo');		
+
+			$acl->addResource('krasnoyarsk');	
+			$acl->addResource('autkrasnoyarsk');	
+			
+			$acl->addResource('novosibirsk');	
+			$acl->addResource('autnovosibirsk');				
 			
 	        // далее переходим к созданию ролей, которых у нас 2:
 	        // гость (неавторизированный пользователь)
@@ -72,17 +83,34 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 	        $acl->addRole('superadmin', 'admin');
 			
 	        // разрешаем гостю просматривать ресурс index
-	        $acl->allow('guest', 'index', array('index', 'add', 'ruls', 'postlist', 'selectpost', 'support', 'search', 'changecity', 'generatesitemap', 'blog', 'selectblog', 'rss', 'agency'));
-			$acl->allow('guest', 'export', array('index', 'yandex'));
+	        $acl->allow('guest', 'index', array('index', 'ruls', 'postlist', 'selectpost', 'support', 'search', 'changecity', 'generatesitemap', 'blog', 'selectblog', 'rss', 'agency'));
+			$acl->allow('guest', 'omsk', array('index', 'ruls', 'postlist', 'selectpost', 'support', 'search', 'changecity', 'generatesitemap', 'blog', 'selectblog', 'rss', 'agency'));
+			$acl->allow('guest', 'kemerovo', array('index', 'ruls', 'postlist', 'selectpost', 'support', 'search', 'changecity', 'generatesitemap', 'blog', 'selectblog', 'rss', 'agency'));		
+			$acl->allow('guest', 'krasnoyarsk', array('index', 'ruls', 'postlist', 'selectpost', 'support', 'search', 'changecity', 'generatesitemap', 'blog', 'selectblog', 'rss', 'agency'));	
+			$acl->allow('guest', 'novosibirsk', array('index', 'ruls', 'postlist', 'selectpost', 'support', 'search', 'changecity', 'generatesitemap', 'blog', 'selectblog', 'rss', 'agency'));				
+			$acl->allow('guest', 'export', array('index', 'yandex', 'ngs'));
 			$acl->allow('guest', 'rezume', array('index', 'addrezume', 'rezume', 'listrezume'));
 			$acl->allow('guest', 'error');
 	         
 	        // разрешаем гостю просматривать ресурс auth и его подресурсы
 	        $acl->allow('guest', 'aut', array('index', 'login', 'logout', 'registration', 'message'));
+			$acl->allow('guest', 'automsk', array('index', 'login', 'logout', 'registration', 'message'));
+			$acl->allow('guest', 'autkemerovo', array('index', 'login', 'logout', 'registration', 'message'));		
+			$acl->allow('guest', 'autkrasnoyarsk', array('index', 'login', 'logout', 'registration', 'message'));	
+			$acl->allow('guest', 'autnovosibirsk', array('index', 'login', 'logout', 'registration', 'message'));	
 	         
 	        // даём администратору доступ к ресурсам 'add', 'edit' и 'delete'
 	        $acl->allow('admin', 'index', array('add', 'edit', 'delete', 'ruls', 'postlist', 'selectpost', 'support', 'search', 'addbig', 'changecity', 'blog', 'agency', 'addagency'));
+			$acl->allow('admin', 'omsk', array('add', 'edit', 'delete', 'ruls', 'postlist', 'selectpost', 'support', 'search', 'addbig', 'changecity', 'blog', 'agency', 'addagency'));
+			$acl->allow('admin', 'kemerovo', array('add', 'edit', 'delete', 'ruls', 'postlist', 'selectpost', 'support', 'search', 'addbig', 'changecity', 'blog', 'agency', 'addagency'));
+			$acl->allow('admin', 'krasnoyarsk', array('add', 'edit', 'delete', 'ruls', 'postlist', 'selectpost', 'support', 'search', 'addbig', 'changecity', 'blog', 'agency', 'addagency'));
+			$acl->allow('admin', 'novosibirsk', array('add', 'edit', 'delete', 'ruls', 'postlist', 'selectpost', 'support', 'search', 'addbig', 'changecity', 'blog', 'agency', 'addagency'));
+			
 	        $acl->allow('admin', 'aut', array('index', 'login', 'logout', 'registration', 'message', 'office', 'changepass', 'editpost', 'rezume', 'editrezume'));
+			$acl->allow('admin', 'automsk', array('index', 'login', 'logout', 'registration', 'message', 'office', 'changepass', 'editpost', 'rezume', 'editrezume'));
+			$acl->allow('admin', 'autkemerovo', array('index', 'login', 'logout', 'registration', 'message', 'office', 'changepass', 'editpost', 'rezume', 'editrezume'));		
+			$acl->allow('admin', 'autkrasnoyarsk', array('index', 'login', 'logout', 'registration', 'message', 'office', 'changepass', 'editpost', 'rezume', 'editrezume'));	
+			$acl->allow('admin', 'autnovosibirsk', array('index', 'login', 'logout', 'registration', 'message', 'office', 'changepass', 'editpost', 'rezume', 'editrezume'));				
 	         
 	        // разрешаем администратору просматривать страницу ошибок
 			$acl->allow('superadmin', 'index', array('add', 'edit', 'delete', 'ruls', 'postlist', 'selectpost', 'support', 'search', 'addbig', 'changecity', 'mailer', 'importdata','blog', 'addblog', 'addagency', 'addseocategory'));
@@ -96,17 +124,20 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 	        // регистрируем плагин с названием AccessCheck, в который передаём
 	        // на ACL и экземпляр Zend_Auth
 	        $fc->registerPlugin(new Application_Plugin_AccessCheck($acl, Zend_Auth::getInstance()));
-			
-			$smtpConfig = array(  
-				'host' => 'smtp.provacancy.ru',  
-				'username' => 'webmaster@provacancy.ru',  
-				'password' => 'OKXZ6fYV',  
-				'port' => 25,  
-				'auth' => 'login'  
-			);
 
-			$tr = new Zend_Mail_Transport_Smtp('smtp.provacancy.ru', $smtpConfig);
-			Zend_Mail::setDefaultTransport($tr);			
+
+			Zend_Registry::set('aut_controller', 'aut');
+			Zend_Registry::set('controller', 'index');
+			Zend_Registry::set('city_id', 1);   
+			Zend_Registry::set('city_name', 'Томск'); 
+			Zend_Registry::set('title_prefix', 'Вакансии в Томске. Работа в Томски. ProVacancy.ru. | '); 	
+			Zend_Registry::set('logo_text', 'Вакансии в Томске'); 
+			Zend_Registry::set('seo_text', 'Работа в Томске'); 		
+			Zend_Registry::set('top_text', 'Вакансии в Томске и Томской области на сайте ProVacancy.ru. Вся работа в Томске. Самые свежие, самые последние вакансии, от прямых работодателей и кадровых агентств!'); 
+			Zend_Registry::set('buttom_text', 'Работа  в   Томске : легко найти
+                На сайте ProVacancy Вас ждет не только банк  вакансий  в   Томске , но и много другой полезной информации: новости рынка труда, обзоры, информационные материалы, каталог кадровых агентств и работодателей, советы по составлению резюме и т.д. Найти работу  в   Томске  несложно: для того, чтобы разместить  вакансию, Вам понадобится всего несколько минут. 
+                ProVacancy старается помочь всем и каждому независимо от социального статуса и семейного положения. Широкие возможности отбора  вакансий  на сайте помогут найти работу  в   Томске  без опыта, по совместительству, со свободным графиком, вахтовым методом - параметры поиска могут быть разными. Достойные работа и зарплата в лучших компаниях  в   Томске  ждут Вас!');
+			Zend_Registry::set('left_text', 'Работа, резюме и вакансии в Томске на PROVACANCY.RU! Мы предлагаем сервис поиска работы. Соискателям PROVACANCY.RU позволяет найти работу в Томске и регионах. Перспективная работа на PROVACANCY.RU. Работа в Томске на PROVACANCY.RU - не просто job-сайт или биржа труда, это качественная база вакансий Томска и лучший сервис для поиска работы! Работа в Томске - PROVACANCY.RU Мы работаем, чтобы Вы работали! '); 
 	    }
 }
 

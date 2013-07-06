@@ -5,89 +5,52 @@ class Application_Form_Registration extends Zend_Form
 
     public function init()
     {
-// указываем имя формы
         $this->setName('Registration');
-        // сообщение о незаполненном поле
+        $this->setMethod('post');		
         $isEmptyMessage = 'Значение не может быть пустым';
-         
-        // Login
+		//--------------------------------------------------------------------------------------
         $username = new Zend_Form_Element_Text('username', array(
-            'class'    => 'maxiinput'));
-        $username->setLabel('Логин:')
-            ->setRequired(true)
-            ->addFilter('StripTags')
-            ->addFilter('StringTrim')
-            ->addValidator('NotEmpty', true,
-                array('messages' => array('isEmpty' => $isEmptyMessage))
-            );
-			
-        $username->setDecorators(array(
-            'ViewHelper',
-            'Errors',
-            array(array('data' => 'HtmlTag'), array('tag' => 'td', 'class'  => 'element')),
-            array('Label', array('tag' => 'td')),
-            array(array('row' => 'HtmlTag'), array('tag' => 'tr')),
-            )); 
-		//--------------------------------------------------------------------------------------
-		//Email	
-        $email = new Zend_Form_Element_Text('email', array(
-            'class'    => 'maxiinput'));
-        $email->setLabel('Email:')
-            ->setRequired(true)
-            ->addFilter('StripTags')
-            ->addFilter('StringTrim')
-            ->addValidator('NotEmpty', true,
-                array('messages' => array('isEmpty' => $isEmptyMessage))
-            );
-
-        $email->setDecorators(array(
-            'ViewHelper',
-            'Errors',
-            array(array('data' => 'HtmlTag'), array('tag' => 'td', 'class'  => 'element')),
-            array('Label', array('tag' => 'td')),
-            array(array('row' => 'HtmlTag'), array('tag' => 'tr')),
-            )); 
-		//--------------------------------------------------------------------------------------
-		$captcha = new Zend_Form_Element_Captcha('foo', array(
-           'label' => "Введите текст:",
-		   'class'    => 'maxiinput',
-           'captcha' => 'Figlet',
-           'captchaOptions' => array(
-              'captcha' => 'Figlet',
-              'wordLen' => 6,
-              'timeout' => 300,
-           ),
+            'required'    => true,
+            'label'       => 'Логин:',
+            'maxlength'   => '200',
+			'class'       => 'input-block-level',			
+            'filters'     => array('StripTags', 'StringTrim'),
         ));
+		
+		$username->addValidator('NotEmpty', true,
+            array('messages' => array('isEmpty' => $isEmptyMessage)));
+        $this->addElement($username);
+		//--------------------------------------------------------------------------------------
+        $email = new Zend_Form_Element_Text('email', array(
+            'required'    => true,
+            'label'       => 'Email:',
+            'maxlength'   => '200',
+			'class'       => 'input-block-level',			
+            'filters'     => array('StripTags', 'StringTrim'),
+        ));
+		
+		$email->addValidator('NotEmpty', true,
+            array('messages' => array('isEmpty' => $isEmptyMessage)));
+        $this->addElement($email);
+		//--------------------------------------------------------------------------------------
+		$recaptcha = new Zend_Service_ReCaptcha("6Le3HeESAAAAAM_eoOzyIPgUg6iKJj-fFYP3tj-5 ","6Le3HeESAAAAABVIguC5OTpOJ6G5dKWwljGxAaYX");
+        $recaptcha->setOption('theme', 'clean');
+        $captcha = new Zend_Form_Element_Captcha('challenge', array('captcha' => 'ReCaptcha','captchaOptions' => array('captcha' => 'ReCaptcha','service' => $recaptcha)));
 		$captcha->setDecorators(array(
             'Errors',
             array(array('data' => 'HtmlTag'), array('tag' => 'td', 'class'  => 'element')),
             array('Label', array('tag' => 'td')),
             array(array('row' => 'HtmlTag'), array('tag' => 'tr')),
         )); 
+		$this->addElement($captcha);			
 		//--------------------------------------------------------------------------------------
-        // создаём кнопку submit
-        $submit = new Zend_Form_Element_Submit('registration');
-        $submit->setLabel('Отправить пароль на email');
-		
-		$submit->setDecorators(array(
-            'ViewHelper',
-            array(array('data' => 'HtmlTag'), array('tag' => 'td', 'class'  => 'element')),
-            array(array('label' => 'HtmlTag'), array('tag' => 'td',  'placement' => 'prepend')),
-            array(array('row' => 'HtmlTag'), array('tag' => 'tr')),
-        ));
-        // добавляем элементы в форму
-        $this->addElements(array($username, $email, $captcha, $submit));
-         
-        // указываем метод передачи данных
-        $this->setMethod('post');
-		
-        $this->setDecorators(array(
-            'FormElements',
-            array('HtmlTag', array('tag' => 'table', 'class'  => 'registration')),
-            'Form',
-        ));
+        $submit = new Zend_Form_Element_Submit('registration', array(
+            'label'       => 'Отправить пароль на email',
+			'class'       => 'btn pull-right btn-primary',
+        )); 
+        $this->addElement($submit);	
+		//--------------------------------------------------------------------------------------		   
     }
-
 
 }
 

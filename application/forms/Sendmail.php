@@ -43,7 +43,7 @@ class Application_Form_Sendmail extends Zend_Form
             array(array('row' => 'HtmlTag'), array('tag' => 'tr')),
         )); 		
         $this->addElement($template);
-		//--------------------------------------------------------------------------------------
+		//--------------------------------------------------------------------------------------			
         // Кнопка Submit
         $send = new Zend_Form_Element_Submit('send', array(
             'label'       => 'Отправить',

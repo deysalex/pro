@@ -11,75 +11,41 @@ class Application_Form_Editpost extends Zend_Form
             'required'    => true,
             'label'       => 'Заголовок:',
             'maxlength'   => '200',
-			'class'       => 'addinput',			
+			'class'       => 'input-medium input-block-level',			
             'filters'     => array('StringTrim'),
         ));
-		
 		$title->addValidator('NotEmpty', true,
-            array('messages' => array('isEmpty' => $isEmptyMessage)));
-				
-		$title->setDecorators(array(
-            'ViewHelper',
-            'Errors',
-            array(array('data' => 'HtmlTag'), array('tag' => 'td', 'class'  => 'element')),
-            array('Label', array('tag' => 'td')),
-            array(array('row' => 'HtmlTag'), array('tag' => 'tr')),
-        )); 
+            array('messages' => array('isEmpty' => $isEmptyMessage)));		 
         $this->addElement($title);
 		//--------------------------------------------------------------------------------------
         $text = new Zend_Form_Element_Textarea('text', array(
             'label'       => 'Текст:',
             'rows'        => '20',
             'cols'        => '60',
-			'class'       => 'add',			
+			'class'       => 'input-block-level',			
             'validators'  => array(
                 array('StringLength', true, array(0, 5000))
              ),
             'filters'     => array('StringTrim'),
         )); 
-	
-		$text->setDecorators(array(
-            'ViewHelper',
-            'Errors',
-            array(array('data' => 'HtmlTag'), array('tag' => 'td', 'class'  => 'element')),
-            array('Label', array('tag' => 'td')),
-            array(array('row' => 'HtmlTag'), array('tag' => 'tr')),
-        )); 		
         $this->addElement($text);	
 		//--------------------------------------------------------------------------------------		
         $price = new Zend_Form_Element_Text('price', array(
             'required'    => true,
             'label'       => 'З.П.:',
             'maxlength'   => '30',
-			'class'       => 'addpriceinput',			
+			'class'       => 'input-medium input-block-level',			
             'filters'     => array('StringTrim'),
-        ));
-		$price->setDecorators(array(
-            'ViewHelper',
-            'Errors',		
-            array(array('data' => 'HtmlTag'), array('tag' => 'td', 'class'  => 'element')),
-            array('Label', array('tag' => 'td')),
-            array(array('row' => 'HtmlTag'), array('tag' => 'tr')),
         )); 		
         $this->addElement($price);	
 		//--------------------------------------------------------------------------------------		
         // Кнопка Submit
         $save = new Zend_Form_Element_Submit('Save', array(
             'label'       => 'Сохранить',
-        )); 
-		$save->setDecorators(array(
-            'ViewHelper',
-            array(array('data' => 'HtmlTag'), array('tag' => 'td', 'class'  => 'element')),
-            array(array('label' => 'HtmlTag'), array('tag' => 'td',  'placement' => 'prepend')),
-            array(array('row' => 'HtmlTag'), array('tag' => 'tr')),
-        ));		
+			'class'       => 'btn pull-right btn-primary',
+        )); 	
         $this->addElement($save);	
-		//--------------------------------------------------------------------------------------
-        $this->setDecorators(array(
-            'FormElements',
-            array('HtmlTag', array('tag' => 'table')),
-            'Form',
-        ));	
+		//--------------------------------------------------------------------------------------	
     }
 
 

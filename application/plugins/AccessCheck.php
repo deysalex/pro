@@ -30,7 +30,7 @@ class Application_Plugin_AccessCheck extends Zend_Controller_Plugin_Abstract
         // если пользователь не допущен до данного ресурса,
         // то отсылаем его на страницу авторизации
         if (!$this->_acl->isAllowed($role, $resource, $action)) {
-            $request->setControllerName('aut')->setActionName('login');
+            $request->setControllerName('aut'.($resource == 'index' ? '': $resource))->setActionName('login');
         }
     }
 }

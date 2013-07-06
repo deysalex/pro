@@ -1,0 +1,12 @@
+﻿<?php
+    // Создаём заголовок страницы, который загрузится в layout
+    $this->title = "Выбрать другой город";
+    $this->headTitle($this->title);
+?>
+<div class = "changecity">
+    <a class=menu2 href="http://kemerovo.domspro.ru">Кемерово</a>
+</div>
+<div class = "changecity">
+	<a class=menu2 href="http://prodoms.ru">Томск</a>
+</div>
+<div class = "error"> <?php echo $this->errMessage;?> </div>

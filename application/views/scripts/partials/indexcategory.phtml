@@ -1,11 +1,11 @@
-<li><a href="<?php echo '/index/postlist/id/'.$this->category_id;?>">
+<li><a href="<?php echo '/'.Zend_Registry::get('controller').'/postlist/id/'.$this->category_id;?>">
 <?php echo $this->escape($this->category_name);?>
 </a>
 <?php 
     $count = $this->count;
-	if ($count == null) {
-		$count = 0;
-	}
-	echo ' ['.$count.'] ';
+    if ($count == null) {
+        $count = 0;
+    }
+    echo ' ['.$count.'] ';
 ?>
 </li>

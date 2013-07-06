@@ -3,127 +3,115 @@
     $this->headMeta()->appendHttpEquiv('Content-Language', 'ru');   
     $this->headMeta()->appendHttpEquiv('Pragma', 'no-cache');
     $this->headMeta()->appendHttpEquiv('Cache-Control', 'no-cache');
-    
-	$this->headTitle()->setPrefix('Вакансии в Томске. Работа в Томски. ProVacancy.ru. | ');
+	$this->headLink()->prependStylesheet('/themes/retriever/retriever.css'); 
+	$this->headLink()->prependStylesheet('/css/bootstrap-responsive.css'); 	
+	$this->headLink()->prependStylesheet('/css/bootstrap.css');
+
+    $this->headTitle()->setPrefix(Zend_Registry::get('title_prefix'));
      
     echo $this->doctype();
 ?>
-     
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru">
+<html>
 <head>
 <?php
-    echo $this->headTitle();
     echo $this->headMeta(); 
+	echo $this->headTitle();
+	echo $this->headLink();
 ?>
 <meta name="document-state" content="dynamic" />
 <meta name="robots" content="index,follow" />
 <meta name='yandex-verification' content='63fe593dff248c31' />
 <meta name="google-site-verification" content="PLwmd2PsUKiOc0uWnVWMiGQ4m4phVKYYtKZOoBcOZfY" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
 <link rel="icon" href="<?php echo $this->baseUrl(); ?>/favicon.ico" type="image/x-icon">
-<?php echo $this->headLink()->prependStylesheet($this->baseUrl().'/css/style_new.css'); ?>
+<script type="text/javascript" src="/script/export.js"></script>
 </head>
-<body>
-<table cellspacing="0" class="global">
-    <tr>
-        <td class="upper">
-        <!-- HEADER start -->
-        <table cellspacing="0" class="top-title">
-            <tr>
-                <td class="title">
-				<div class = "logo_title">
-					<a href='/index'><h1 class="h1-latest-news">Вакансии в Томске</h1></a>
-				</div>
-                </td>
-                <td class="search">
-				Вакансии в Томске и Томской области на сайте ProVacancy.ru. Вся работа в Томске. Самые свежие, самые последние вакансии, от прямых работодателей и кадровых агентств!
-				</td>
-            </tr>
+  <body>
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="brand" href=<?php echo '/'.Zend_Registry::get('controller')?>><?php echo Zend_Registry::get('logo_text') ?></a>
+          <div class="navbar-content">
+            <ul class="nav  pull-right">
+              <li>
+                <a href=<?php echo '/'.Zend_Registry::get('controller').'/ruls'?>>Правила</a> 
+              </li>
+              <li>
+                <a href=<?php echo '/'.Zend_Registry::get('controller').'/support'?>>Обратная связь</a> 
+              </li>
+              <li>
+                <a href=<?php echo '/'.Zend_Registry::get('controller').'/blog'?>>Статьи</a> 
+              </li>
+              <li>
+                <a href=<?php echo '/'.Zend_Registry::get('controller').'/agency'?>>Агентства</a> 
+              </li>
+              <li>
+                <a href=<?php echo '/'.Zend_Registry::get('controller').'/rss'?>>RSS</a> 
+              </li>
 
-        </table>  
-        
-		<div class="lower-menu_left">
-            <a href='http://kem.provacancy.ru/'>Кемерово</a><span>|</span>
-            <a href='http://provacancy.ru/'>Томск</a><span>|</span>
-            <a href='http://nsk.provacancy.ru/'>Новосибирск</a>
-        </div>
-		
-        <!-- MAIN MENU start -->
-        <div class="top-menu">
-        <div class="bg-left">
-        <div class="bg-right">
-            <ul>
-                <li><a href='/index'>Главная</a></li>
-                <li><a href='/index/ruls'>Правила</a></li>
-                <li><a href='/index/support'>Обратная связь</a></li>
-                <li><a href='/index/blog'>Статьи</a></li>
-                <li><a href='/index/agency'>Агентства</a></li>
-                <li><a href='/index/rss'>RSS</a></li>
-                <li> </li>
-                <li> </li>
-                <li> </li>
-                <li> </li>
-                    <?php
+			      <?php
                     $pAuthIdentity = Zend_Auth::getInstance()->getIdentity();
                     if ($pAuthIdentity) {
                         $username = $pAuthIdentity->username;
-                        echo "<li>$username</li> 
-                            <li><a href='/aut/office'>Личный кабинет</a></li>
-                            <li><a href='/aut/logout'>Выход</a></li>";
+                        echo "<li><a href='/".Zend_Registry::get('aut_controller')."/office'>$username</a></li>";
+						echo "<li><a href='/".Zend_Registry::get('aut_controller')."/logout'>Выход</a></li>";
                     } else {
-                        echo "<li><a href='/aut/login'>Войти в кабинет</a>";  
-                        echo " / "; 
-                        echo "<a href='/aut/registration'>Зарегистрироваться</a></li>";          
+                        echo "<li><a href='/".Zend_Registry::get('aut_controller')."/login'>Войти в кабинет</a>";  ;          
                     }
-                    ?>
+                  ?>
+			   
             </ul>
+          </div>
+			<form class="navbar-search" action=<?php echo '/'.Zend_Registry::get('controller').'/'?> method="get">
+				<input id="search_text" class="search-query input-large" type="text" placeholder="Ищу вакансию..." maxlength="200" value="" name="search_text"></input>
+			</form>
         </div>
-        </div>
-        </div>  
-        <!-- MAIN MENU end-->
-        <!-- HEADER end -->	
-
-
-        <table cellspacing="0" class="top-title">
-            <tr>
-                <td>
-					<div class = "category_group">
-						<a href='/index'>Вакансии</a>
-					</div>
-                </td>
-				<td>
-					<div class = "category_group">
-						<a href='/rezume'>Резюме   <span class='span_submenu'><- новая возможность</span></a>   
-					</div>
-                </td>
-                <td class="search">
-					<script type='text/javascript' src='//yandex.st/share/share.js' charset='utf-8'></script>
-					<div class='yashare-auto-init' data-yashareL10n='ru' data-yashareType='button' data-yashareQuickServices='yaru,vkontakte,facebook,twitter,odnoklassniki,moimir'></div> 
-				</td>
-            </tr>
-
-        </table>
+      </div>
+    </div>
+    <div class="container">
+      <div class="page-header">
+		<br> 
+		<br> 
+        <h1>PROVACANCY.RU
+          <br> 
+        </h1>
+		<ol class="breadcrumb">
+			<li>
+				<a href='http://provacancy.ru/kemerovo'>Кемерово</a>
+				<span class="divider">|</span> 
+			</li>
+			<li>
+				<a href='http://provacancy.ru/'>Томск</a>
+				<span class="divider">|</span> 
+			</li>
+			<li>
+				<a href='http://provacancy.ru/novosibirsk'>Новосибирск</a>
+				<span class="divider">|</span> 
+			</li>
+			<li>
+				<a href='http://provacancy.ru/krasnoyarsk'>Красноярск</a>
+				<span class="divider">|</span> 
+			</li>
+			<li>
+				<a href='http://provacancy.ru/omsk'>Омск</a>
+			</li>			
+		</ol>
+      </div>
+      <div class="alert hidden-phone alert-info"><?php echo Zend_Registry::get('top_text') ?>
+        <br> 
+      </div>
+      <div class="row">
 
         <?php 
             echo $this->layout()->content; 
         ?>
-
-        <!-- FOOTER start -->
-        <div class="lower-menu">
-            <a href='/index'>Главная</a><span>|</span>
-            <a href='/index/ruls'>Правила</a><span>|</span>
-            <a href='/index/support'>Обратная связь</a><span>|</span>
-            <a href='/index/blog'>Статьи</a><span>|</span>
-            <a href='/index/agency'>Агентства</a><span>|</span>
-            <a href='/index/rss'>Rss</a>
-            <p>Дата изменений: 25.01.2013</p>
-        </div> 	
-        <div class="lower-menu">
-				Работа  в   Томске : легко найти
-				На сайте ProVacancy Вас ждет не только банк  вакансий  в   Томске , но и много другой полезной информации: новости рынка труда, обзоры, информационные материалы, каталог кадровых агентств и работодателей, советы по составлению резюме и т.д. Найти работу  в   Томске  несложно: для того, чтобы разместить  вакансию, Вам понадобится всего несколько минут. 
-				ProVacancy старается помочь всем и каждому независимо от социального статуса и семейного положения. Широкие возможности отбора  вакансий  на сайте помогут найти работу  в   Томске  без опыта, по совместительству, со свободным графиком, вахтовым методом - параметры поиска могут быть разными. Достойные работа и зарплата в лучших компаниях  в   Томске  ждут Вас!
-        </div>		
-		
-        <div class="lower-menu">
+        
+      </div>
+      <p class="text-info"><?php echo Zend_Registry::get('buttom_text') ?></p>
+		<div>
 			<!--LiveInternet counter--><script type="text/javascript"><!--
 			document.write("<a href='http://www.liveinternet.ru/click' "+
 			"target=_blank><img src='//counter.yadro.ru/hit?t45.6;r"+
@@ -134,37 +122,42 @@
 			"' alt='' title='LiveInternet' "+
 			"border='0' width='31' height='31'><\/a>")
 			//--></script><!--/LiveInternet-->
-		</div>			
-		
-<!-- Yandex.Metrika counter -->
-<script type="text/javascript">
-(function (d, w, c) {
-    (w[c] = w[c] || []).push(function() {
-        try {
-            w.yaCounter20579689 = new Ya.Metrika({id:20579689,
-                    clickmap:true,
-                    trackLinks:true,
-                    accurateTrackBounce:true});
-        } catch(e) { }
-    });
+			
+			<span style="margin:0;padding:0" id="tbec">
+			<a href="http://www.tbex.ru/#site/provacancy.ru">TBEx</a>
+			<script type="text/javascript">setTimeout(function(){var s=document.createElement("SCRIPT");s.type="text/javascript";s.src="http://c.tbex.ru/p/a!8016!provacancy.ru!c.js?rev=4-"+(new Date().getTime());(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(s)},1);</script></span><noscript><a href="http://www.tbex.ru/site/provacancy.ru/"><img src="http://c.tbex.ru/p/a!8016!provacancy.ru!c.gif" alt="www.tbex.ru" /></a></noscript>
+		</div>	  
+    </div>
+    <div></div>
+    <div>
+	</div>
+    <div>
+		<!-- Yandex.Metrika counter -->
+		<script type="text/javascript">
+		(function (d, w, c) {
+			(w[c] = w[c] || []).push(function() {
+				try {
+					w.yaCounter20579689 = new Ya.Metrika({id:20579689,
+							clickmap:true,
+							trackLinks:true,
+							accurateTrackBounce:true});
+				} catch(e) { }
+			});
 
-    var n = d.getElementsByTagName("script")[0],
-        s = d.createElement("script"),
-        f = function () { n.parentNode.insertBefore(s, n); };
-    s.type = "text/javascript";
-    s.async = true;
-    s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+			var n = d.getElementsByTagName("script")[0],
+				s = d.createElement("script"),
+				f = function () { n.parentNode.insertBefore(s, n); };
+			s.type = "text/javascript";
+			s.async = true;
+			s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
 
-    if (w.opera == "[object Opera]") {
-        d.addEventListener("DOMContentLoaded", f, false);
-    } else { f(); }
-})(document, window, "yandex_metrika_callbacks");
-</script>
-<noscript><div><img src="//mc.yandex.ru/watch/20579689" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<!-- /Yandex.Metrika counter -->		
-		
-        </td>
-    </tr>
-</table>  
-</body>
+			if (w.opera == "[object Opera]") {
+				d.addEventListener("DOMContentLoaded", f, false);
+			} else { f(); }
+		})(document, window, "yandex_metrika_callbacks");
+		</script>
+		<noscript><div><img src="//mc.yandex.ru/watch/20579689" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+		<!-- /Yandex.Metrika counter -->  	
+	</div>
+  </body>
 </html>

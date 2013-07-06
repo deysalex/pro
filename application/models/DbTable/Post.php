@@ -18,10 +18,9 @@ class Application_Model_DbTable_Post extends Zend_Db_Table_Abstract
         public function GetPostByCategoryId($category_id)
         {
             $category_id = (int)$category_id;            
-            $city = new Zend_City_City();  
             
             return $this->fetchAll($this->select()->where('categoryid = ?', $category_id)
-                                                  ->where('cityid = ?', $city->getId())
+                                                  ->where('cityid = ?', Zend_Registry::get('city_id'))
                                                   ->order(array('id desc')));
         }
         
@@ -29,27 +28,25 @@ class Application_Model_DbTable_Post extends Zend_Db_Table_Abstract
         {
             $category_id = (int)$category_id;    
             $limit = (int)$limit;   
-            $city = new Zend_City_City();  
             
             return $this->fetchAll($this->select()->where('categoryid = ?', $category_id)
-                                                  ->where('cityid = ?', $city->getId())
+                                                  ->where('cityid = ?', Zend_Registry::get('city_id'))
                                                   ->order(array('id desc'))
                                                   ->limit($limit, 0));
         }       
         
         public function GetById($id)
         {
-			return $this->fetchRow($this->select()->where('id = ?', $id)); 
+            return $this->fetchRow($this->select()->where('id = ?', $id)); 
         }
          
         // Метод для добавление новой записи
         public function AddPost($categoryid, $title, $text, $price, $user_id)
         {
-            $city = new Zend_City_City();
             $text=str_replace("\r\n","<br /> ",$text);
             $data = array(
                 'categoryid' => $categoryid,
-                'cityid' => $city->getId(),
+                'cityid' => Zend_Registry::get('city_id'),
                 'title' => $title,
                 'text' => $text,
                 'price' => $price,  
@@ -66,10 +63,8 @@ class Application_Model_DbTable_Post extends Zend_Db_Table_Abstract
         
         public function Count()
         {
-            $city = new Zend_City_City();
-
             $select = $this->select()->from(array('p' => 'post'), array('count' => 'COUNT(*)'));
-            $select->where('p.cityid = ?', $city->getId());
+            $select->where('p.cityid = ?', Zend_Registry::get('city_id'));
             
             return $this->fetchRow($select);
         }
@@ -86,26 +81,20 @@ class Application_Model_DbTable_Post extends Zend_Db_Table_Abstract
         }
         
         public function GetPosts()
-        {
-            $city = new Zend_City_City();  
-            
-            return $this->fetchAll($this->select()->where('cityid = ?', $city->getId())->order(array('id desc')));         
+        {            
+            return $this->fetchAll($this->select()->where('cityid = ?', Zend_Registry::get('city_id'))->order(array('id desc')));         
         }   
         
         public function GetSearchPosts($text)
-        {
-            $city = new Zend_City_City();  
-            
-            return $this->fetchAll($this->select()->where('cityid = ?', $city->getId())
+        {   
+            return $this->fetchAll($this->select()->where('cityid = ?', Zend_Registry::get('city_id'))
                                                   ->where('text LIKE ?', '%'.$text.'%')
                                                   ->order(array('id desc')));        
         }       
         
         public function GetCountPosts($count)
-        {
-            $city = new Zend_City_City();
-     
-            return $this->fetchAll($this->select()->where('cityid = ?', $city->getId())->order(array('id desc'))->limit($count, 0));           
+        {     
+            return $this->fetchAll($this->select()->where('cityid = ?', Zend_Registry::get('city_id'))->order(array('id desc'))->limit($count, 0));           
         }
         
         public function GetPostCurrentUser()
@@ -133,24 +122,22 @@ class Application_Model_DbTable_Post extends Zend_Db_Table_Abstract
             $this->update($data, 'id = ' . (int)$id);
         }   
 
-        public function GetAllToExportYandex()
-        {   
-            $city = new Zend_City_City();  
-            
+        public function GetAllToExportYandex($city_id)
+        {               
             return $this->fetchAll($this->select()->where('date > DATE_SUB(NOW(), INTERVAL 1 MONTH)')
-                                                  ->where('cityid = ?', $city->getId())
+                                                  ->where('cityid = ?', $city_id)
                                                   ->order(array('id desc')));
         }   
 
         public function Edit($id, $title, $text, $price)
         {
             $text=str_replace("\r\n","<br /> ",$text);
-			$data = array(
+            $data = array(
                 'title' => $title,
                 'text' => $text,
-				'price' => $price,
+                'price' => $price,
             );           
             $this->update($data, 'id = ' . (int)$id);
-        }		
+        }       
 }
 

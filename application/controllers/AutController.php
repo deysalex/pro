@@ -7,7 +7,20 @@ class AutController extends Zend_Controller_Action
 
     public function init()
     {
-        /* Initialize action controller here */
+        Zend_Registry::set('aut_controller', 'aut');
+		Zend_Registry::set('controller', 'index');
+        Zend_Registry::set('city_id', 1);   
+        Zend_Registry::set('city_name', 'Томск'); 
+		Zend_Registry::set('title_prefix', 'Вакансии в Томске. Работа в Томски. ProVacancy.ru. | '); 	
+		Zend_Registry::set('logo_text', 'Вакансии в Томске'); 		
+		Zend_Registry::set('seo_text', 'Работа в Томске'); 			
+		Zend_Registry::set('top_text', 'Вакансии в Томске и Томской области на сайте ProVacancy.ru. Вся работа в Томске. Самые свежие, самые последние вакансии, от прямых работодателей и кадровых агентств!'); 
+		Zend_Registry::set('buttom_text', 'Работа  в   Томске : легко найти
+                На сайте ProVacancy Вас ждет не только банк  вакансий  в   Томске , но и много другой полезной информации: новости рынка труда, обзоры, информационные материалы, каталог кадровых агентств и работодателей, советы по составлению резюме и т.д. Найти работу  в   Томске  несложно: для того, чтобы разместить  вакансию, Вам понадобится всего несколько минут. 
+                ProVacancy старается помочь всем и каждому независимо от социального статуса и семейного положения. Широкие возможности отбора  вакансий  на сайте помогут найти работу  в   Томске  без опыта, по совместительству, со свободным графиком, вахтовым методом - параметры поиска могут быть разными. Достойные работа и зарплата в лучших компаниях  в   Томске  ждут Вас!');
+		Zend_Registry::set('left_text', 'Работа, резюме и  вакансии   в   Томске  на ProVacancy! Мы предлагаем сервис поиска работы. Соискателям ProVacancy позволяет найти работу  в   Томске и регионах.  Перспективная работа на ProVacancy.
+				Работа  в   Томске  на ProVacancy - не просто job-сайт или биржа труда, это качественная база  вакансий   Томска  и лучший сервис для поиска работы! Работа  в   Томске  - ProVacancy
+				Мы работаем, чтобы Вы работали!'); 			
     }
 
     public function indexAction()
@@ -17,78 +30,78 @@ class AutController extends Zend_Controller_Action
 
     public function loginAction()
     {
-	    if (Zend_Auth::getInstance()->hasIdentity()) {
-	        $this->_helper->redirector('index', 'index');
-	    }
-	     
-	    $form = new Application_Form_Login();
-	    $this->view->form = $form;
-	     
-	    if ($this->getRequest()->isPost()) {
-	        $formData = $this->getRequest()->getPost();
-	         
-	        if ($form->isValid($formData)) {
-	            $authAdapter = new Zend_Auth_Adapter_DbTable(Zend_Db_Table::getDefaultAdapter());
-	             
-	            $authAdapter->setTableName('users')
-	                ->setIdentityColumn('username')
-	                ->setCredentialColumn('password');
+        if (Zend_Auth::getInstance()->hasIdentity()) {
+            $this->_helper->redirector('index', Zend_Registry::get('controller'));
+        }
+         
+        $form = new Application_Form_Login();
+        $this->view->form = $form;
+         
+        if ($this->getRequest()->isPost()) {
+            $formData = $this->getRequest()->getPost();
+             
+            if ($form->isValid($formData)) {
+                $authAdapter = new Zend_Auth_Adapter_DbTable(Zend_Db_Table::getDefaultAdapter());
+                 
+                $authAdapter->setTableName('users')
+                    ->setIdentityColumn('username')
+                    ->setCredentialColumn('password');
 
-	            $username = $this->getRequest()->getPost('username');
-	            $password = $this->getRequest()->getPost('password');
+                $username = $this->getRequest()->getPost('username');
+                $password = $this->getRequest()->getPost('password');
 
-	            $authAdapter->setIdentity($username)->setCredential($password);
-	             
-	            $auth = Zend_Auth::getInstance();
-	            $result = $auth->authenticate($authAdapter);
-	             
-	            if ($result->isValid()) {
-	                $identity = $authAdapter->getResultRowObject();
-	                $authStorage = $auth->getStorage();
-	                 
-	                $authStorage->write($identity);
-	                 
-	                $this->_helper->redirector('index', 'index');
-	            } else {
-	                $this->view->errMessage = 'Вы ввели неверное имя пользователя или неверный пароль';
-	            }
-	        }
-	    }
+                $authAdapter->setIdentity($username)->setCredential($password);
+                 
+                $auth = Zend_Auth::getInstance();
+                $result = $auth->authenticate($authAdapter);
+                 
+                if ($result->isValid()) {
+                    $identity = $authAdapter->getResultRowObject();
+                    $authStorage = $auth->getStorage();
+                     
+                    $authStorage->write($identity);
+                     
+                    $this->_helper->redirector('index', Zend_Registry::get('controller'));
+                } else {
+                    $this->view->errMessage = 'Вы ввели неверное имя пользователя или неверный пароль';
+                }
+            }
+        }
     }
 
     public function logoutAction()
     {
-	    Zend_Auth::getInstance()->clearIdentity();
-	    $this->_helper->redirector('index', 'index');
+        Zend_Auth::getInstance()->clearIdentity();
+        $this->_helper->redirector('index', Zend_Registry::get('controller'));
     }
 
     public function registrationAction()
     {
-	    $form = new Application_Form_Registration();
-	    $this->view->form = $form;
-		 
-	    if ($this->getRequest()->isPost()) {
-	        $formData = $this->getRequest()->getPost();		
-	        if ($form->isValid($formData)) {
-				$username = $form->getValue('username');
-		        $email = $form->getValue('email');	
-			    $password = $this->GenPassword(8);
-			
-				$usersTable = new Application_Model_DbTable_Users();
-				if ($usersTable->CheckExistUsername($username)) {
-				    $this->view->errMessage = "Пользователь с таким логином уже существует";
-				} else if ($usersTable->CheckExistEmail($email)) {
-				    $this->view->errMessage = "Email уже используется";				
-				} else {
-				    $usersTable->AddUser($username, $password, $email); 
-				    $this->SendEmail($email, $username, $this->CreateEmailText($username, $password));
-					$this->SendEmail('webmaster@provacancy.ru', $username, $this->CreateEmailText($username, $password));
-					$this->_helper->redirector('login');
-				}
-	        } else {
-	            $form->populate($formData);
-	        }
-	    }
+        $form = new Application_Form_Registration();
+        $this->view->form = $form;
+         
+        if ($this->getRequest()->isPost()) {
+            $formData = $this->getRequest()->getPost();     
+            if ($form->isValid($formData)) {
+                $username = $form->getValue('username');
+                $email = $form->getValue('email');  
+                $password = $this->GenPassword(8);
+            
+                $usersTable = new Application_Model_DbTable_Users();
+                if ($usersTable->CheckExistUsername($username)) {
+                    $this->view->errMessage = "Пользователь с таким логином уже существует";
+                } else if ($usersTable->CheckExistEmail($email)) {
+                    $this->view->errMessage = "Email уже используется";             
+                } else {
+                    $usersTable->AddUser($username, $password, $email); 
+                    $this->SendEmail($email, $username, $this->CreateEmailText($username, $password));
+                    $this->SendEmail('webmaster@provacancy.ru', $username, $this->CreateEmailText($username, $password));
+                    $this->_helper->redirector('login');
+                }
+            } else {
+                $form->populate($formData);
+            }
+        }
     }
 
     private function make_seed()
@@ -104,7 +117,7 @@ class AutController extends Zend_Controller_Action
          //create password 
           $password = ""; 
     
-	      for ($loop = 0; $loop < $pass_len; $loop++) 
+          for ($loop = 0; $loop < $pass_len; $loop++) 
           { 
             switch(mt_rand(0, 2))
             { 
@@ -118,7 +131,7 @@ class AutController extends Zend_Controller_Action
 
     private function SendEmail($email, $name, $text)
     {
-	    $mail = new Zend_Mail('UTF-8');
+        $mail = new Zend_Mail('UTF-8');
         $mail->setBodyText($text);
         $mail->setFrom('webmaster@provacancy.ru', 'provacancy');
         $mail->addTo($email, $name);
@@ -128,12 +141,12 @@ class AutController extends Zend_Controller_Action
 
     private function CreateEmailText($username, $password)
     {
-	    $mailtemplates = new Application_Model_DbTable_Mailtemplate();
-		$mailtemplate = $mailtemplates->GetById(2);
-		$text=str_replace("username ", $username, $mailtemplate->text);
-		$text=str_replace("password ", $password, $text);
-		
-		return $text;
+        $mailtemplates = new Application_Model_DbTable_Mailtemplate();
+        $mailtemplate = $mailtemplates->GetById(2);
+        $text=str_replace("username ", $username, $mailtemplate->text);
+        $text=str_replace("password ", $password, $text);
+        
+        return $text;
     }
 
     public function messageAction()
@@ -144,170 +157,170 @@ class AutController extends Zend_Controller_Action
     {
         $mailer = new Application_Model_DbTable_Mailer();
         foreach ($mailer->fetchAll() as $mail) {
-		
-		   $email = $mail->email;
-		   $mail = $mail->name;
-		   $text = "";
+        
+           $email = $mail->email;
+           $mail = $mail->name;
+           $text = "";
            SendEmail($email, $name, $text);
         }
     }
 
     public function officeAction()
     {
-		$posts = new Application_Model_DbTable_Post();
-			
-		$paginator = Zend_Paginator::factory($posts->GetPostCurrentUser());      
+        $posts = new Application_Model_DbTable_Post();
+            
+        $paginator = Zend_Paginator::factory($posts->GetPostCurrentUser());      
         $paginator->setCurrentPageNumber($this->_getParam('page', 1)); // page number
         $paginator->setItemCountPerPage(30); // number of items to show per page
-			
-	    $this->view->post = $paginator;
-	    $this->view->paginator = $paginator;
+            
+        $this->view->post = $paginator;
+        $this->view->paginator = $paginator;
     }
 
     public function changepassAction()
     {
-		$form = new Application_Form_Changepass();
-	    $this->view->form = $form; 
+        $form = new Application_Form_Changepass();
+        $this->view->form = $form; 
         
-		if ($this->getRequest()->isPost()) {
-	        $formData = $this->getRequest()->getPost();	
-	        if ($form->isValid($formData)) {
-				$password_old = $form->getValue('password_old');
-		        $password_new = $form->getValue('password_new');	
-			    $password_new2 = $form->getValue('password_new2');
-				
-				if ($password_new2 != $password_new) {
-				    $this->view->errMessage = "Новый пароль не совпадает";	
-				} else {
-				    $user_id = -1;
-		        	$pAuthIdentity = Zend_Auth::getInstance()->getIdentity();
+        if ($this->getRequest()->isPost()) {
+            $formData = $this->getRequest()->getPost(); 
+            if ($form->isValid($formData)) {
+                $password_old = $form->getValue('password_old');
+                $password_new = $form->getValue('password_new');    
+                $password_new2 = $form->getValue('password_new2');
+                
+                if ($password_new2 != $password_new) {
+                    $this->view->errMessage = "Новый пароль не совпадает";  
+                } else {
+                    $user_id = -1;
+                    $pAuthIdentity = Zend_Auth::getInstance()->getIdentity();
                     if ($pAuthIdentity) {
-		                $user_id = $pAuthIdentity->id;
-						$users = new Application_Model_DbTable_Users();
-						$users->ChangePassword($user_id, $password_new);
-						
-						$username = $pAuthIdentity->username;
-						$this->SendEmail($pAuthIdentity->email, $username, $this->CreateEmailTextChangePassword($username, $password_new));
-						
-						$this->_helper->redirector('office');
+                        $user_id = $pAuthIdentity->id;
+                        $users = new Application_Model_DbTable_Users();
+                        $users->ChangePassword($user_id, $password_new);
+                        
+                        $username = $pAuthIdentity->username;
+                        $this->SendEmail($pAuthIdentity->email, $username, $this->CreateEmailTextChangePassword($username, $password_new));
+                        
+                        $this->_helper->redirector('office');
                     }
-				}	
-	        } else {
-	            $form->populate($formData);
-	        }
-	    }
+                }   
+            } else {
+                $form->populate($formData);
+            }
+        }
     }
 
     private function CreateEmailTextChangePassword($username, $password)
     {
-	    $mailtemplates = new Application_Model_DbTable_Mailtemplate();
-		$mailtemplate = $mailtemplates->GetById(3);
-		$text=str_replace("username ", $username, $mailtemplate->text);
-		$text=str_replace("password ", $password, $text);
-		
-		return $text;
+        $mailtemplates = new Application_Model_DbTable_Mailtemplate();
+        $mailtemplate = $mailtemplates->GetById(3);
+        $text=str_replace("username ", $username, $mailtemplate->text);
+        $text=str_replace("password ", $password, $text);
+        
+        return $text;
     }
 
     public function editpostAction()
     {
-	    $id = $this->_getParam('id', 0);
-	    if ($id > 0) {	
-			$posts = new Application_Model_DbTable_Post();
-			$post = $posts->GetById($id);
-			
-			if (!$post) {
-				throw new Zend_Controller_Dispatcher_Exception();
-			}
-			
-			if ($this->checkAccess($post->user_id)) {
-				$form = new Application_Form_Editpost();
-				$form->title->setValue($post->title);
-				$form->text->setValue(str_replace("<br /> ","\r\n",$post->text));
-				$form->price->setValue($post->price);
-				$this->view->form = $form;
-			
-				if ($this->getRequest()->isPost()) {	
-					$formData = $this->getRequest()->getPost();	     
-					if ($form->isValid($formData)) {
-						$title = $form->getValue('title');
-						$text = $form->getValue('text');
-						$price = $form->getValue('price');
+        $id = $this->_getParam('id', 0);
+        if ($id > 0) {  
+            $posts = new Application_Model_DbTable_Post();
+            $post = $posts->GetById($id);
+            
+            if (!$post) {
+                throw new Zend_Controller_Dispatcher_Exception();
+            }
+            
+            if ($this->checkAccess($post->user_id)) {
+                $form = new Application_Form_Editpost();
+                $form->title->setValue($post->title);
+                $form->text->setValue(str_replace("<br /> ","\r\n",$post->text));
+                $form->price->setValue($post->price);
+                $this->view->form = $form;
+            
+                if ($this->getRequest()->isPost()) {    
+                    $formData = $this->getRequest()->getPost();      
+                    if ($form->isValid($formData)) {
+                        $title = $form->getValue('title');
+                        $text = $form->getValue('text');
+                        $price = $form->getValue('price');
 
-						$posts->Edit($id, $title, $text, $price);		
-						$this->_helper->redirector('office');
-					} else {
-						$form->populate($formData);
-					}
-				} 
-			}
-		}
+                        $posts->Edit($id, $title, $text, $price);       
+                        $this->_helper->redirector('office');
+                    } else {
+                        $form->populate($formData);
+                    }
+                } 
+            }
+        }
     }
 
     private function checkAccess($user_id)
     {
-		$pAuthIdentity = Zend_Auth::getInstance()->getIdentity();
-		return $pAuthIdentity->id == $user_id;
+        $pAuthIdentity = Zend_Auth::getInstance()->getIdentity();
+        return $pAuthIdentity->id == $user_id;
     }
 
     public function rezumeAction()
     {
-		$rezumes = new Application_Model_DbTable_Rezume();
-			
-		$paginator = Zend_Paginator::factory($rezumes->GetForCurrentUser());      
+        $rezumes = new Application_Model_DbTable_Rezume();
+            
+        $paginator = Zend_Paginator::factory($rezumes->GetForCurrentUser());      
         $paginator->setCurrentPageNumber($this->_getParam('page', 1)); // page number
         $paginator->setItemCountPerPage(30); // number of items to show per page
-			
-	    $this->view->rezume = $paginator;
-	    $this->view->paginator = $paginator;
+            
+        $this->view->rezume = $paginator;
+        $this->view->paginator = $paginator;
     }
 
     public function editrezumeAction()
     {
-	    $id = $this->_getParam('id', 0);
-	    if ($id > 0) {	
-			$rezumes = new Application_Model_DbTable_Rezume();
-			$rezume = $rezumes->GetById($id);
-			
-			if (!$rezume) {
-				throw new Zend_Controller_Dispatcher_Exception();
-			}
-			
-			if ($this->checkAccess($rezume->user_id)) {
-			
-				$form = new Application_Form_Editrezume();
-				
-				$form->title->setValue($rezume->title);
-				$form->about->setValue(str_replace("<br /> ","\r\n", $rezume->about));
-				$form->education->setValue(str_replace("<br /> ","\r\n", $rezume->education));
-				$form->skills->setValue(str_replace("<br /> ","\r\n", $rezume->skills));
-				$form->experience->setValue(str_replace("<br /> ","\r\n", $rezume->experience));
-				$form->other->setValue(str_replace("<br /> ","\r\n", $rezume->other));
-				$form->contacts->setValue(str_replace("<br /> ","\r\n", $rezume->contacts));
-				
-				$this->view->form = $form;
-			
-				if ($this->getRequest()->isPost()) {	
-					$formData = $this->getRequest()->getPost();	     
-					if ($form->isValid($formData)) {
+        $id = $this->_getParam('id', 0);
+        if ($id > 0) {  
+            $rezumes = new Application_Model_DbTable_Rezume();
+            $rezume = $rezumes->GetById($id);
+            
+            if (!$rezume) {
+                throw new Zend_Controller_Dispatcher_Exception();
+            }
+            
+            if ($this->checkAccess($rezume->user_id)) {
+            
+                $form = new Application_Form_Editrezume();
+                
+                $form->title->setValue($rezume->title);
+                $form->about->setValue(str_replace("<br /> ","\r\n", $rezume->about));
+                $form->education->setValue(str_replace("<br /> ","\r\n", $rezume->education));
+                $form->skills->setValue(str_replace("<br /> ","\r\n", $rezume->skills));
+                $form->experience->setValue(str_replace("<br /> ","\r\n", $rezume->experience));
+                $form->other->setValue(str_replace("<br /> ","\r\n", $rezume->other));
+                $form->contacts->setValue(str_replace("<br /> ","\r\n", $rezume->contacts));
+                
+                $this->view->form = $form;
+            
+                if ($this->getRequest()->isPost()) {    
+                    $formData = $this->getRequest()->getPost();      
+                    if ($form->isValid($formData)) {
 
-						$data = array(
-							'title' => $form->getValue('title'),
-							'about' => $form->getValue('about'),    
-							'education' => $form->getValue('education'),
-							'skills' => $form->getValue('skills'),
-							'experience' => $form->getValue('experience'),
-							'other' => $form->getValue('other'),
-							'contacts' => $form->getValue('contacts'),
-						);
-						$rezumes->Edit($id, $data);	
-						
-						$this->_helper->redirector('rezume');
-					} else {
-						$form->populate($formData);
-					}
-				} 
-			}
-		}
+                        $data = array(
+                            'title' => $form->getValue('title'),
+                            'about' => $form->getValue('about'),    
+                            'education' => $form->getValue('education'),
+                            'skills' => $form->getValue('skills'),
+                            'experience' => $form->getValue('experience'),
+                            'other' => $form->getValue('other'),
+                            'contacts' => $form->getValue('contacts'),
+                        );
+                        $rezumes->Edit($id, $data); 
+                        
+                        $this->_helper->redirector('rezume');
+                    } else {
+                        $form->populate($formData);
+                    }
+                } 
+            }
+        }
     }
 
 

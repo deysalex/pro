@@ -1,32 +1,48 @@
 ﻿<?php if ($this->pageCount): ?>
 <div class="pagination">
+	<ul>
 <!-- Ссылка на предыдущую страницу -->
 <?php if (isset($this->previous)): ?>
+<li>
   <a href="<?php echo $this->url(array('page' => $this->previous)); ?>">
-    &lt; Назад
-  </a> |
+    Назад
+  </a> 
+</li>  
 <?php else: ?>
-  <span class="disabled">&lt; Назад</span> |
-<?php endif; ?>
+<li>
+  <span class="disabled">Назад</span>
+</li>
+  <?php endif; ?>
  
 <!-- Нумерованные ссылки на страницы -->
 <?php foreach ($this->pagesInRange as $page): ?>
   <?php if ($page != $this->current): ?>
+  <li>
     <a href="<?php echo $this->url(array('page' => $page)); ?>">
         <?php echo $page; ?>
-    </a> |
+    </a>
+</li>
   <?php else: ?>
-    <?php echo $page; ?> |
+	<li class="active">
+		<a href="<?php echo $this->url(array('page' => $page)); ?>">
+			<?php echo $page; ?> 
+		</a>	
+	</li>
   <?php endif; ?>
 <?php endforeach; ?>
  
 <!-- Ссылка на следующую страницу -->
 <?php if (isset($this->next)): ?>
+<li>
   <a href="<?php echo $this->url(array('page' => $this->next)); ?>">
-    Вперед &gt;
+    Вперед
   </a>
+</li>  
 <?php else: ?>
-  <span class="disabled">Вперед &gt;</span>
+<li>
+  <span class="disabled">Вперед</span>
+</li>  
 <?php endif; ?>
+	</ul>
 </div>
 <?php endif; ?>

@@ -6,10 +6,9 @@ class Application_Model_DbTable_Agency extends Zend_Db_Table_Abstract
     protected $_name = 'agency';
 
     public function GetAgencys()
-   {                                                                                                
-       $city = new Zend_City_City();   
+   {                                                                                                   
        $select = $this->select()->from(array('agency' => 'agency'), array('id', 'title', 'description', 'url', 'phone', 'address'))
-                                ->where('cityid = ?', $city->getId())
+                                ->where('cityid = ?', Zend_Registry::get('city_id'))
                                 ->order(array('id asc'));            
        return $this->fetchAll($select);
    }
@@ -27,15 +26,13 @@ class Application_Model_DbTable_Agency extends Zend_Db_Table_Abstract
        $description=str_replace("\r",'',$description);
        $description=str_replace('   ',' ',$description);
        
-       $city = new Zend_City_City();
-       
        $data = array(
             'title' => $title,
             'description' => $description,
             'url' => $url,
             'phone' => $phone,
             'address' => $address,
-            'cityid' => $city->getId(),
+            'cityid' => Zend_Registry::get('city_id'),
        );
        $this->insert($data);
    }     

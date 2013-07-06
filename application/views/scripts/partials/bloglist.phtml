@@ -1,14 +1,7 @@
-﻿<div class="new-content">
-   <p class="date-current">
-     <?php 
-	   $date = new Zend_Date($this->date); 
-       $createdDate= $date->get(Zend_Date::DATE_LONG); 
-	   echo $createdDate; 
-	 ?> </p>
-   <span class="h2-latest-news">
-    <a href="<?php echo $this->url(array('controller'=>'index', 'action'=>'selectblog', 'id'=>$this->id));?>"><?php echo $this->title; ?></a>
-   </span>
-   <p class="blog_content"> <?php echo mb_substr($this->text, 0, 400);?> ... </p>
-</div> 
-
-
+﻿<div class="well">
+  <h3><a href="<?php echo '/'.Zend_Registry::get('controller').'/selectblog/id/'.$this->id;?>"><?php echo $this->title; ?></a></h3>
+  <h4></h4>
+  <p><?php echo mb_substr($this->text, 0, 400);?> ... Подробнее
+    <br> 
+  </p>
+</div>

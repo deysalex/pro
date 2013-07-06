@@ -1,4 +1,5 @@
-<li><a href="<?php echo $this->url(array('controller'=>'index', 'action'=>'postlist', 'id'=>$this->category_id));?>">
+<li <?php if (Zend_Registry::get('current_category_id') == $this->category_id) { echo 'class = "active"';} ?>>
+<a href="<?php echo '/' . Zend_Registry::get('controller') . '/postlist/id/' . $this->category_id ?>">
 <?php echo $this->escape($this->category_name);?>
 </a>
 </li>

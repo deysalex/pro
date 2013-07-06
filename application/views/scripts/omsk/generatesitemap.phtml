@@ -1,0 +1,34 @@
+﻿<?php
+  echo '<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.google.com/schemas/sitemap/0.84 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">';
+?>
+
+<url>
+  <loc>
+    <?php
+     $sitemap_options = Zend_Controller_Front::getInstance()->getParam('bootstrap')->getApplication()->getOption('sitemap');
+	 $sitemap_url = $sitemap_options['url'];	
+	  echo $sitemap_url;
+    ?>
+  </loc>
+  <lastmod>
+    <?php 
+	  $date = new Zend_Date(); 
+	  $createdDate= $date->get(Zend_Date::ISO_8601); 
+	  echo $createdDate;
+	?>
+  </lastmod>
+  <changefreq>
+    daily
+  </changefreq>
+  <priority>
+    1.00
+  </priority>
+</url>
+
+<?php
+    echo $this->partialLoop('partials/sitemap_post_item.phtml', $this->post);
+    echo $this->partialLoop('partials/sitemap_blog_item.phtml', $this->blog);	
+?>
+
+</urlset>

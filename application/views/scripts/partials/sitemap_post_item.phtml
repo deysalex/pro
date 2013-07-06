@@ -2,16 +2,16 @@
   <loc>
     <?php
      $sitemap_options = Zend_Controller_Front::getInstance()->getParam('bootstrap')->getApplication()->getOption('sitemap');
-	 $sitemap_url = $sitemap_options['url'];	
-	  echo $sitemap_url.'index/selectpost/id/'.$this->id;
+     $sitemap_url = $sitemap_options['url'];    
+      echo $sitemap_url.Zend_Registry::get('controller').'/selectpost/id/'.$this->id;
     ?>
   </loc>
   <lastmod>
     <?php 
-	  $date = new Zend_Date(); 
-	  $createdDate= $date->get(Zend_Date::ISO_8601); 
-	  echo $createdDate;
-	?>
+      $date = new Zend_Date(); 
+      $createdDate= $date->get(Zend_Date::ISO_8601); 
+      echo $createdDate;
+    ?>
   </lastmod>
   <changefreq>
     daily

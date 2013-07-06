@@ -1,0 +1,14 @@
+﻿<?php
+    // Создаём заголовок страницы, который загрузится в layout
+    $this->title = "Поиск объявлений";
+    $this->headTitle($this->title);
+?>
+
+<?php  
+    echo $this->form;
+    if ($this->post != null) {
+	    echo $this->partialLoop('partials/postlist.phtml', $this->post);
+	} else {
+	    echo 'По запросу ничего не найдено';
+	}
+?>

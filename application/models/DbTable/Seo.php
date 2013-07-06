@@ -6,41 +6,40 @@ class Application_Model_DbTable_Seo extends Zend_Db_Table_Abstract
     protected $_name = 'seo';
 
     public function Add($name, $text, $city_id)
-	{
-		$text=str_replace("\r\n","<br /> ",$text);
-		$data = array(
-			'name' => $name,
-			'text' => $text,
-			'city_id' => $city_id,
-		);           
-		$this->insert($data);
-	}
-		
-	public function Edit($id, $name, $text)
-	{
-		$data = array(
-			'name' => $name,
-			'text' => $text,
-		);           
-		$this->update($data, 'id = ' . (int)$id);
-	}		
-		
-	public function GetAll()
-	{ 
-		$city = new Zend_City_City();
-		return $this->fetchAll($this->select()->where('city_id = ?', $city->getId())->order(array('id desc')));         
-	} 	
+    {
+        $text=str_replace("\r\n","<br /> ",$text);
+        $data = array(
+            'name' => $name,
+            'text' => $text,
+            'city_id' => $city_id,
+        );           
+        $this->insert($data);
+    }
+        
+    public function Edit($id, $name, $text)
+    {
+        $data = array(
+            'name' => $name,
+            'text' => $text,
+        );           
+        $this->update($data, 'id = ' . (int)$id);
+    }       
+        
+    public function GetAll()
+    { 
+        return $this->fetchAll($this->select()->order(array('id desc')));         
+    }   
 
-	public function GetById($id)
-	{ 
-		$retval = $this->fetchRow($this->select()->where('id = ?', $id));
-		$retval->text = str_replace("<br /> ","\r\n",$retval->text);
-		return $retval;         
-	} 
-	
-	public function GetByName($name)
-	{ 
-/*		
+    public function GetById($id)
+    { 
+        $retval = $this->fetchRow($this->select()->where('id = ?', $id));
+        $retval->text = str_replace("<br /> ","\r\n",$retval->text);
+        return $retval;         
+    } 
+    
+    public function GetByName($name)
+    { 
+/*      
 $oBackend = new Zend_Cache_Backend_Memcached(
     array(
         'servers' => array( array(
@@ -70,18 +69,17 @@ array(
  
 // составляем объект кэширования
 $oCache = Zend_Cache::factory( $oFrontend, $oBackend );
-		$retval = null;
-		if(!$oCache->test($name)) {*/
-			$city = new Zend_City_City();
-			$retval = $this->fetchRow($this->select()->where('name = ?', $name)->where('city_id = ?', $city->getId()));
-			$retval->text = str_replace("<br /> ","\r\n",$retval->text);
-			/*$oCache->save($retval, $name);
-		} else {
-			$retval = $oCache->load($name);
-		}*/
+        $retval = null;
+        if(!$oCache->test($name)) {*/
+            $retval = $this->fetchRow($this->select()->where('name = ?', $name)->where('city_id = ?', Zend_Registry::get('city_id')));
+            $retval->text = str_replace("<br /> ","\r\n",$retval->text);
+            /*$oCache->save($retval, $name);
+        } else {
+            $retval = $oCache->load($name);
+        }*/
 
-		return $retval;         
-	} 	
+        return $retval;         
+    }   
 
 }
 

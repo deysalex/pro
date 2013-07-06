@@ -2,7 +2,7 @@
     <td><?php echo "kkk";?></td>
     <td><?php echo $this->escape($this->text);?></td>
     <td>
-        <a href="<?php echo $this->url(array('controller'=>'index', 'action'=>'edit', 'id'=>$this->id));?>">Редактировать</a>
-        <a href="<?php echo $this->url(array('controller'=>'index', 'action'=>'delete', 'id'=>$this->id));?>">Удалить</a>
+        <a href="<?php echo $this->url(array('controller'=>Zend_Registry::get('controller'), 'action'=>'edit', 'id'=>$this->id));?>">Редактировать</a>
+        <a href="<?php echo $this->url(array('controller'=>Zend_Registry::get('controller'), 'action'=>'delete', 'id'=>$this->id));?>">Удалить</a>
     </td>
 </tr>

@@ -6,15 +6,25 @@ class IndexController extends Zend_Controller_Action
     
     public function init()
     {
-        /* Initialize action controller here */
+        Zend_Registry::set('aut_controller', 'aut');
+		Zend_Registry::set('controller', 'index');
+        Zend_Registry::set('city_id', 1);   
+        Zend_Registry::set('city_name', 'Томск'); 
+		Zend_Registry::set('title_prefix', 'Вакансии в Томске. Работа в Томски. ProVacancy.ru. | '); 	
+		Zend_Registry::set('logo_text', 'Вакансии в Томске'); 		
+		Zend_Registry::set('seo_text', 'Работа в Томске'); 		
+		Zend_Registry::set('top_text', 'Вакансии в Томске и Томской области на сайте ProVacancy.ru. Вся работа в Томске. Самые свежие, самые последние вакансии, от прямых работодателей и кадровых агентств!'); 
+		Zend_Registry::set('buttom_text', 'Работа  в   Томске : легко найти
+                На сайте ProVacancy Вас ждет не только банк  вакансий  в   Томске , но и много другой полезной информации: новости рынка труда, обзоры, информационные материалы, каталог кадровых агентств и работодателей, советы по составлению резюме и т.д. Найти работу  в   Томске  несложно: для того, чтобы разместить  вакансию, Вам понадобится всего несколько минут. 
+                ProVacancy старается помочь всем и каждому независимо от социального статуса и семейного положения. Широкие возможности отбора  вакансий  на сайте помогут найти работу  в   Томске  без опыта, по совместительству, со свободным графиком, вахтовым методом - параметры поиска могут быть разными. Достойные работа и зарплата в лучших компаниях  в   Томске  ждут Вас!');
+		Zend_Registry::set('left_text', 'Работа, резюме и вакансии в Томске на PROVACANCY.RU! Мы предлагаем сервис поиска работы. Соискателям PROVACANCY.RU позволяет найти работу в Томске и регионах. Перспективная работа на PROVACANCY.RU. Работа в Томске на PROVACANCY.RU - не просто job-сайт или биржа труда, это качественная база вакансий Томска и лучший сервис для поиска работы! Работа в Томске - PROVACANCY.RU Мы работаем, чтобы Вы работали! '); 
+		Zend_Registry::set('current_category_id', 0); 
+		$Indexcategorys = new Application_Model_DbTable_Indexcategory();
+        $this->view->indexcategory = $Indexcategorys->GetCategorys($this->_groupid); 		
     }
 
     public function indexAction()
     {
-    // Создаём объект нашей модели
-        $Indexcategorys = new Application_Model_DbTable_Indexcategory();
-        $this->view->indexcategory = $Indexcategorys->GetCategorys($this->_groupid);  
-       
         $form = new Application_Form_Search();
         $this->view->form = $form;
         
@@ -35,6 +45,9 @@ class IndexController extends Zend_Controller_Action
 
         $seo = new Application_Model_DbTable_Seo();
         $this->view->seo = $seo;
+		
+		$Indexcategorys = new Application_Model_DbTable_Indexcategory();
+        $this->view->indexcategory = $Indexcategorys->GetCategorys($this->_groupid); 		
     }
 
     public function addAction()
@@ -45,9 +58,12 @@ class IndexController extends Zend_Controller_Action
         $form->category->addMultiOption(0, 'Выберите рубрику');
         foreach ($categorys->GetIndexCategorys($this->_groupid) as $category) {
             $form->category->addMultiOption($category->category_id, $category->category_name);
-        }   
+        }  		
 
-        $this->view->form = $form;  
+        $this->view->form = $form; 
+		
+		$Indexcategorys = new Application_Model_DbTable_Indexcategory();
+        $this->view->indexcategory = $Indexcategorys->GetCategorys($this->_groupid);		
 
         if ($this->getRequest()->isPost()) {
             $formData = $this->getRequest()->getPost();
@@ -88,93 +104,17 @@ class IndexController extends Zend_Controller_Action
 
     public function editAction()
     {
-            // Создаём форму
-        $form = new Application_Form_Movie();
-         
-        // Указываем текст для submit
-        $form->submit->setLabel('Сохранить');
-        $this->view->form = $form;
-         
-        // Если к нам идёт Post запрос
-        if ($this->getRequest()->isPost()) {
-            // Принимаем его
-            $formData = $this->getRequest()->getPost();
-             
-            // Если форма заполнена верно
-            if ($form->isValid($formData)) {
-                // Извлекаем id
-                $id = (int)$form->getValue('id');
-                 
-                // Извлекаем режиссёра
-                $director = $form->getValue('director');
-                 
-                // Извлекаем название фильма
-                $title = $form->getValue('title');
-                 
-                // Создаём объект модели
-                $movies = new Application_Model_DbTable_Movies();
-                 
-                // Вызываем метод модели updateMovie для обновления новой записи
-                $movies->updateMovie($id, $director, $title);
-                 
-                // Используем библиотечный helper для редиректа на action = index
-                $this->_helper->redirector('index');
-            } else {
-                $form->populate($formData);
-            }
-        } else {
-            // Если мы выводим форму, то получаем id фильма, который хотим обновить
-            $id = $this->_getParam('id', 0);
-            if ($id > 0) {
-                // Создаём объект модели
-                $movies = new Application_Model_DbTable_Movies();
-                 
-                // Заполняем форму информацией при помощи метода populate
-                $form->populate($movies->getMovie($id));
-            }
-        }
+
     }
 
     public function deleteAction()
     {
-            // Если к нам идёт Post запрос
-        if ($this->getRequest()->isPost()) {
-            // Принимаем значение
-            $del = $this->getRequest()->getPost('del');
-             
-            // Если пользователь подтвердил своё желание удалить запись
-            if ($del == 'Да') {
-                // Принимаем id записи, которую хотим удалить
-                $id = $this->getRequest()->getPost('id');
-                 
-                // Создаём объект модели
-                $movies = new Application_Model_DbTable_Movies();
-                 
-                // Вызываем метод модели deleteMovie для удаления записи
-                $movies->deleteMovie($id);
-            }
-             
-            // Используем библиотечный helper для редиректа на action = index
-            $this->_helper->redirector('index');
-        } else {
-            // Если запрос не Post, выводим сообщение для подтверждения
-            // Получаем id записи, которую хотим удалить
-            $id = $this->_getParam('id');
-             
-            // Создаём объект модели
-            $movies = new Application_Model_DbTable_Movies();
-             
-            // Достаём запись и передаём в view
-            $this->view->movie = $movies->getMovie($id);
-        }
+
     }
 
     public function rulsAction()
     {
-        // Создаём форму
         $form = new Application_Form_Ruls();
-         
-        // Передаём форму в view
         $this->view->form = $form;   
     }
 
@@ -204,6 +144,7 @@ class IndexController extends Zend_Controller_Action
             
             $this->view->post = $paginator;
             $this->view->paginator = $paginator;
+			Zend_Registry::set('current_category_id', $id);
         }
         
     }
@@ -215,10 +156,10 @@ class IndexController extends Zend_Controller_Action
         if ($id > 0) {
             $current_posts = new Application_Model_DbTable_Post();
             $current_post = $current_posts->GetById($id); 
-			
-			if (!$current_post) {
-				throw new Zend_Controller_Dispatcher_Exception();
-			}			
+            
+            if (!$current_post) {
+                throw new Zend_Controller_Dispatcher_Exception();
+            }           
             
             $current_posts->IncReview($id);
 
@@ -232,14 +173,18 @@ class IndexController extends Zend_Controller_Action
             $similar_posts = new Application_Model_DbTable_Post();
             $similar_post = $similar_posts->GetPostByCategoryIdLimit($current_post->categoryid, 5); 
 
-            $this->view->post = Array('current_post' => $current_post, 'similar_post' => $similar_post);    
+            $this->view->post = Array('current_post' => $current_post, 'similar_post' => $similar_post);  
+			Zend_Registry::set('current_category_id', $current_post->categoryid);			
         }
     }
 
     public function supportAction()
     {
         $form = new Application_Form_Support();
-        $this->view->form = $form;   
+        $this->view->form = $form; 	
+
+		$Indexcategorys = new Application_Model_DbTable_Indexcategory();
+        $this->view->indexcategory = $Indexcategorys->GetCategorys($this->_groupid);		
         
         if ($this->getRequest()->isPost()) {
             // Принимаем его
@@ -283,78 +228,42 @@ class IndexController extends Zend_Controller_Action
     {
         $form = new Application_Form_Addbig();
              
-        //Настройка формы 
-        
-        $categorys = new Application_Model_DbTable_Categorygroup();
+        $categorys = new Application_Model_DbTable_Indexcategory();
         $form->category->addMultiOption(0, 'Выберите рубрику');
-        foreach ($categorys->GetCategoryWithGroup() as $category) {
-            $form->category->addMultiOption($category['category_id'], $category['name'].' - '.$category['category_name']);
-        }
+        foreach ($categorys->GetIndexCategorys($this->_groupid) as $category) {
+            $form->category->addMultiOption($category->category_id, $category->category_name);
+        }      
         
-        $citys = new Application_Model_DbTable_City();
-        $form->city->addMultiOption(0, 'Выберите город');
-        foreach ($citys->fetchAll() as $city) {
-            $form->city->addMultiOption($city['id'], $city['name']);
-        }       
-        
-        // Передаём форму в view
         $this->view->form = $form;
 
         if ($this->getRequest()->isPost()) {
-            // Принимаем его
             $formData = $this->getRequest()->getPost();
-             
-            // Если форма заполнена верно
-            if ($form->isValid($formData)) {
-
-                $category = $form->getValue('category');
-                $city = $form->getValue('city');
-                $valid = $form->getValue('valid');  
-                $user_id = $this->GetCurrentUserId();
-                 
-                $post = new Application_Model_DbTable_Post();
-                $categoryTable = new Application_Model_DbTable_Indexcategory();
-                
-                $title = $form->getValue('title1');
-                $text = $form->getValue('text1');
-                $price = $form->getValue('price1');
-                
-                $post->AddPost($category, $city, $title, $text, $price, $valid, $user_id);
-                $categoryTable->IncCount($category);
-                
-                $title = $form->getValue('title2');
-                $text = $form->getValue('text2');
-                $price = $form->getValue('price2');
-                
-                $post->AddPost($category, $city, $title, $text, $price, $valid, $user_id);      
-                $categoryTable->IncCount($category);
-                
-                $title = $form->getValue('title3');
-                $text = $form->getValue('text3');
-                $price = $form->getValue('price3');
-                
-                $post->AddPost($category, $city, $title, $text, $price, $valid, $user_id);  
-                $categoryTable->IncCount($category);
-                
-                $title = $form->getValue('title4');
-                $text = $form->getValue('text4');
-                $price = $form->getValue('price4');
-                
-                $post->AddPost($category, $city, $title, $text, $price, $valid, $user_id);  
-                $categoryTable->IncCount($category);
-                
-                $title = $form->getValue('title5');
-                $text = $form->getValue('text5');
-                $price = $form->getValue('price5');
-                
-                $post->AddPost($category, $city, $title, $text, $price, $valid, $user_id);                  
-                $categoryTable->IncCount($category);
-                
+            $url = $this->getRequest()->getParam('url');
+			if ($url != '') {
+				$form->url->setValue($url);
+			}
+			if ($form->isValid($formData)) {
+				for ($i = 0; $i < 5; $i += 1) {
+					$this->addPostItem($i, $form);
+				}
                 $this->_helper->redirector('index');
             } else {
                 $form->populate($formData);
             }
         }           
+    }
+	
+	public function addPostItem($item, $form)
+    {
+		$category = $form->getValue('category');
+        $title = $form->getValue('title_'.$item);
+        $text = $form->getValue('text_'.$item) . "\r\n" . $form->getValue('contact_'.$item);
+        $price = $form->getValue('price_'.$item);
+
+        $user_id = $this->GetCurrentUserId();
+        
+        $post = new Application_Model_DbTable_Post();
+        $post->AddPost($category, $title, $text, $price, $user_id); 
     }
 
     public function changecityAction()
@@ -464,6 +373,9 @@ class IndexController extends Zend_Controller_Action
             
         $this->view->blog = $paginator;
         $this->view->paginator = $paginator;
+		
+		$Indexcategorys = new Application_Model_DbTable_Indexcategory();
+        $this->view->indexcategory = $Indexcategorys->GetCategorys($this->_groupid);		
     }
 
     public function addblogAction()
@@ -516,6 +428,9 @@ class IndexController extends Zend_Controller_Action
             
         $this->view->agency = $paginator;
         $this->view->paginator = $paginator;
+		
+		$Indexcategorys = new Application_Model_DbTable_Indexcategory();
+        $this->view->indexcategory = $Indexcategorys->GetCategorys($this->_groupid); 		
     }
 
     public function addagencyAction()
@@ -573,13 +488,11 @@ class IndexController extends Zend_Controller_Action
                 $title = $form->getValue('title');
                 $description = $form->getValue('description');
                 $texttop = $form->getValue('texttop');
-                $textleft = $form->getValue('textleft');
-                $city = new Zend_City_City();   
-
+                $textleft = $form->getValue('textleft');  
                 $user_id = $this->GetCurrentUserId();
                 
                 $post = new Application_Model_DbTable_Seocategory();
-                $post->AddSeo($category, $city->getId(), $title, $description, $texttop, $textleft);        
+                $post->AddSeo($category, Zend_Registry::get('city_id'), $title, $description, $texttop, $textleft);        
                 
                 $this->_helper->redirector('addseocategory');
             } else {
